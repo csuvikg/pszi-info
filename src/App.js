@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import {useEffect, useState} from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import {Button, Grid, Typography} from '@material-ui/core';
+
+const App = () => {
+    const [isGeolocationEnabled, setGeolocationEnabled] = useState(false);
+    useEffect(() => {
+        (async () => await getGeolocationStatus())()
+    }, []);
+
+    const getLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(console.log);
+        }
+    }
+
+    const getGeolocationStatus = async () => {
+        if (navigator.permissions) {
+            const result = await navigator.permissions.query({name: 'geolocation'});
+            setGeolocationEnabled(result.state === 'granted');
+            result.onchange = e => setGeolocationEnabled(e.target.state === 'granted');
+        }
+    }
+
+    return (
+        <Grid container justify='center'>
+            <Grid direction='column'>
+                <Typography variant="h4">
+                    Geolocation is {isGeolocationEnabled ? 'enabled' : 'disabled'}
+                </Typography>
+                <Grid container justify='center'>
+                    <Button variant='contained' color='primary' onClick={getLocation}>Get position</Button>
+                </Grid>
+            </Grid>
+        </Grid>
+    );
 }
 
 export default App;
