@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 
 import {Button, Grid, Typography} from '@material-ui/core';
+import Page from "./Page";
 
 const App = () => {
     const [isGeolocationEnabled, setGeolocationEnabled] = useState(false);
@@ -23,16 +24,17 @@ const App = () => {
     }
 
     return (
-        <Grid container justify='center'>
-            <Grid direction='column'>
-                <Typography variant="h4">
-                    Geolocation is {isGeolocationEnabled ? 'enabled' : 'disabled'}
-                </Typography>
-                <Grid container justify='center'>
-                    <Button variant='contained' color='primary' onClick={getLocation}>Get position</Button>
-                </Grid>
-            </Grid>
-        </Grid>
+        <Page title="Intézménykereső"/>
+        // <Grid container justify='center'>
+        //     <Grid direction='column'>
+        //         <Typography variant="h4">
+        //             Geolocation is {isGeolocationEnabled ? 'enabled' : 'disabled'}
+        //         </Typography>
+        //         <Grid container justify='center'>
+        //             <Button variant='contained' color='primary' onClick={getLocation}>Get position</Button>
+        //         </Grid>
+        //     </Grid>
+        // </Grid>
     );
 }
 
