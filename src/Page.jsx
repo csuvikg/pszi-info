@@ -6,33 +6,24 @@ import {
     Drawer,
     IconButton,
     InputAdornment,
-    List,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
     TextField,
     Toolbar,
     Typography
 } from "@material-ui/core";
-import {
-    ChevronLeft as ChevronLeftIcon,
-    Explore as MapIcon,
-    SupervisorAccount as AdminIcon,
-    Menu as MenuIcon,
-    Search as SearchIcon
-} from "@material-ui/icons";
-import {makeStyles} from '@material-ui/core/styles';
+import {ChevronLeft as ChevronLeftIcon, Search as SearchIcon} from "@material-ui/icons";
+import {makeStyles} from "@material-ui/core/styles";
 import clsx from "clsx";
+import {DrawerItemList, MenuButton} from "./components";
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: 'flex',
+        display: "flex",
     },
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
-        transition: theme.transitions.create(['width', 'margin'], {
+        transition: theme.transitions.create(["width", "margin"], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
@@ -40,44 +31,38 @@ const useStyles = makeStyles((theme) => ({
     appBarShift: {
         marginLeft: drawerWidth,
         width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(['width', 'margin'], {
+        transition: theme.transitions.create(["width", "margin"], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
         }),
     },
-    menuButton: {
-        marginRight: 36,
-    },
-    hide: {
-        display: 'none',
-    },
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
-        whiteSpace: 'nowrap',
+        whiteSpace: "nowrap",
     },
     drawerOpen: {
         width: drawerWidth,
-        transition: theme.transitions.create('width', {
+        transition: theme.transitions.create("width", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
         }),
     },
     drawerClose: {
-        transition: theme.transitions.create('width', {
+        transition: theme.transitions.create("width", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        overflowX: 'hidden',
+        overflowX: "hidden",
         width: theme.spacing(7) + 1,
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up("sm")]: {
             width: theme.spacing(9) + 1,
         },
     },
     toolbar: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "flex-end",
         padding: theme.spacing(0, 1),
         ...theme.mixins.toolbar,
     },
@@ -109,17 +94,7 @@ const Page = ({title}) => {
                 })}
             >
                 <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerToggle}
-                        edge="start"
-                        className={clsx(classes.menuButton, {
-                            [classes.hide]: open,
-                        })}
-                    >
-                        <MenuIcon/>
-                    </IconButton>
+                    <MenuButton onClick={handleDrawerToggle} open={open}/>
                     <Typography variant="h6" noWrap>
                         Ellátótérkép
                     </Typography>
@@ -154,19 +129,9 @@ const Page = ({title}) => {
                     </IconButton>
                 </div>
                 <Divider/>
-                <List>
-                    <ListItem button>
-                        <ListItemIcon><MapIcon/></ListItemIcon>
-                        <ListItemText primary="Intézménykereső"/>
-                    </ListItem>
-                </List>
+                <DrawerItemList items={[{label: "Intézménykereső", type: "map"}]}/>
                 <Divider/>
-                <List>
-                    <ListItem button>
-                        <ListItemIcon><AdminIcon/></ListItemIcon>
-                        <ListItemText primary="Admin"/>
-                    </ListItem>
-                </List>
+                <DrawerItemList items={[{label: "Admin", type: "admin"}]}/>
             </Drawer>
             <main className={classes.content}>
                 <div className={classes.toolbar}/>
@@ -181,17 +146,6 @@ const Page = ({title}) => {
                     imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
                     arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
                     donec massa sapien faucibus et molestie ac.
-                </Typography>
-                <Typography paragraph>
-                    Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-                    facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-                    tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-                    consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-                    vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-                    hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-                    tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-                    nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-                    accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
                 </Typography>
             </main>
         </div>

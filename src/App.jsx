@@ -1,6 +1,4 @@
 import {useEffect, useState} from 'react';
-
-import {Button, Grid, Typography} from '@material-ui/core';
 import Page from "./Page";
 
 const App = () => {
