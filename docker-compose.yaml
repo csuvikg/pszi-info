@@ -1,19 +1,16 @@
 version: '3.8'
 
 services:
-  mongo:
-    image: mongo:4.4
+  db:
+    image: postgres:13-alpine
     container_name: pszi_db
     ports:
-      - 27017:27017
+      - '5432:5432'
     environment:
-      - MONGO_INITDB_DATABASE=api
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=admin
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=pszi_info
     volumes:
-      - ./mongo-entrypoint:/docker-entrypoint-initdb.d
-      - mongodb:/data/db
-      - mongoconfig:/data/configdb
+      - dbdata:/var/lib/postgresql/data
     networks:
       - api
   api:
@@ -25,8 +22,7 @@ services:
       - mongo
 
 volumes:
-  mongodb:
-  mongoconfig:
+  dbdata:
 
 networks:
   api:

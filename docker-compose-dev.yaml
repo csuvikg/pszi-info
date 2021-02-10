@@ -1,17 +1,16 @@
 version: '3.8'
 
 services:
-  mongo:
-    image: mongo:4.4
+  db:
+    image: postgres:13-alpine
     container_name: pszi_db
     ports:
-      - 27017:27017
+      - '5432:5432'
     environment:
-      - MONGO_INITDB_DATABASE=api
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=pszi_info
     volumes:
-      - mongodb:/data/db
-      - mongoconfig:/data/configdb
+      - dbdata:/var/lib/postgresql/data
 
 volumes:
-  mongodb:
-  mongoconfig:
+  dbdata:

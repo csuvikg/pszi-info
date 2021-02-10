@@ -1,12 +1,13 @@
 package hu.info.pszi.api.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.*;
 
-@Document
+@Entity
 public class Provider {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
     private String name;
+    @Embedded
     private Address address;
 }
