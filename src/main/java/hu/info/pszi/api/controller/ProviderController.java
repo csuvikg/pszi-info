@@ -1,23 +1,28 @@
 package hu.info.pszi.api.controller;
 
+import com.google.maps.model.GeocodingResult;
 import hu.info.pszi.api.model.Provider;
 import hu.info.pszi.api.repository.ProviderRepository;
+import hu.info.pszi.api.service.GeocodingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 
 @RestController
 @RequestMapping("/providers")
 public class ProviderController {
     final ProviderRepository repository;
+    final GeocodingService geocodingService;
 
     @Autowired
-    public ProviderController(ProviderRepository repository) {
+    public ProviderController(ProviderRepository repository, GeocodingService geocodingService) {
         this.repository = repository;
+        this.geocodingService = geocodingService;
     }
 
     @GetMapping
@@ -39,6 +44,9 @@ public class ProviderController {
                 .path("/{id}")
                 .buildAndExpand(createdProvider.getId())
                 .toUri();
+
+        List<GeocodingResult> results = geocodingService.getResults(createdProvider.getAddress());
+        System.out.println(results);
 
         return ResponseEntity.created(location)
                 .body(createdProvider);

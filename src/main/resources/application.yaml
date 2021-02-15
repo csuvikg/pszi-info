@@ -6,3 +6,5 @@ spring:
     url: jdbc:postgresql://localhost:5432/pszi_info
     username: postgres
     password: postgres
+  profiles:
+    include: secrets
