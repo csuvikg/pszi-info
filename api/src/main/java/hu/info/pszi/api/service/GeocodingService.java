@@ -35,4 +35,9 @@ public class GeocodingService {
                 .components(country(address.getCountry()), postalCode(address.getPostalCode()))
                 .await());
     }
+
+    @SneakyThrows
+    public List<GeocodingResult> getResults(String address) {
+        return Arrays.asList(GeocodingApi.geocode(geoApiCtx, address).await());
+    }
 }
