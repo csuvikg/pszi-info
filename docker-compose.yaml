@@ -3,7 +3,6 @@ version: '3.8'
 services:
   db:
     image: postgres:13-alpine
-    container_name: pszi_db
     ports:
       - '5432:5432'
     environment:
@@ -12,18 +11,28 @@ services:
     volumes:
       - dbdata:/var/lib/postgresql/data
     networks:
-      - api
+      - pszi-info
   api:
-    build: .
-    container_name: pszi_api
+    build: api/
+    ports:
+      - '8080:8080'
     networks:
-      - api
+      - pszi-info
     depends_on:
       - mongo
+  ui:
+    build: ui/
+    ports:
+      - '3080:80'
+      - '3443:443'
+    networks:
+      - pszi-info
+    depends_on:
+      - api
 
 volumes:
   dbdata:
 
 networks:
-  api:
+  pszi-info:
     driver: bridge
