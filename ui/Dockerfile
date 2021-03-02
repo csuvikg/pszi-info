@@ -6,7 +6,7 @@ COPY . .
 
 RUN npm install --silent
 
-RUN node_modules/.bin/react-scripts build
+RUN npm run build
 
 FROM nginx:mainline-alpine
 

@@ -19,7 +19,7 @@ services:
     networks:
       - pszi-info
     depends_on:
-      - mongo
+      - db
   ui:
     build: ui/
     ports:
