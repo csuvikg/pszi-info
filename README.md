@@ -64,3 +64,7 @@ ismerthez hasonló, közösségi adminisztráción alapul.
 - adminisztrátor
   - jogosultságokat kezel
   - cikkeket hagy jóvá
+  
+# Telepítés
+- api/src/main/resources/application-secrets.yaml létrehozása az 
+  application-secrets-template.yaml alapján

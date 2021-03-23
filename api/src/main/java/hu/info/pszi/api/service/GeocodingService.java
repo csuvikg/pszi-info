@@ -32,7 +32,7 @@ public class GeocodingService {
                 + address.getCountry();
 
         return Arrays.asList(GeocodingApi.geocode(geoApiCtx, addressString)
-                .components(country(address.getCountry()), postalCode(address.getPostalCode()))
+                .components(country(address.getCountry()), postalCode(Integer.toString(address.getPostalCode())))
                 .await());
     }
 
