@@ -65,20 +65,22 @@ export const WorkingHoursWeekInput = () => {
         setWorkingHours(workingHoursTemp);
     }
 
-    const handleDialogToggle = () => {
-        setDialogOpen(!isDialogOpen);
-    }
+    const handleDialogToggle = () => setDialogOpen(!isDialogOpen);
 
-    const handleDayChanged = (data) => console.log(data);
+    const handleWorkingHoursDeleted = ({day, workingHoursIndex}) => {
+        const workingHoursTemp = {...workingHours};
+        workingHoursTemp[day].workingHours.splice(workingHoursIndex);
+        setWorkingHours(workingHoursTemp);
+    }
 
     return <>
         <FormControl component="fieldset">
             <FormLabel component="legend" style={{margin: "1rem 0"}}>Munkaidő</FormLabel>
             <FormGroup aria-label="working hours">
                 <Grid container spacing={1}>
-                    {Object.values(workingHours).filter(({workingHours}) => workingHours.length > 0).map(data =>
+                    {Object.values(workingHours).filter(({workingHours}) => workingHours && workingHours.length > 0).map(data =>
                         <Grid key={`${data.value}-grid`} item xs={12} sm={6} md={4}>
-                            <WorkingHoursInput data={data} onChange={handleDayChanged} key={data.value}/>
+                            <WorkingHoursInput data={data} onDelete={handleWorkingHoursDeleted} key={data.value}/>
                         </Grid>
                     )}
                     <Grid item xs={12} sm={6} md={4}>

@@ -10,7 +10,12 @@ import {
 } from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
 
-export const WorkingHoursInput = ({data: {value, label, workingHours}, onChange}) => {
+export const WorkingHoursInput = ({data: {value, label, workingHours}, onDelete}) => {
+    const handleDelete = ({workingHoursIndex}) => onDelete({
+        day: value,
+        workingHoursIndex
+    })
+
     return <Card style={{height: "100%"}}>
         <CardContent>
             <Typography color="textSecondary">
@@ -18,11 +23,15 @@ export const WorkingHoursInput = ({data: {value, label, workingHours}, onChange}
             </Typography>
             {workingHours && workingHours.length > 0
                 ? <List dense>
-                    {workingHours.map(({from, to}) =>
+                    {workingHours.map(({from, to}, workingHoursIndex) =>
                         <ListItem key={`${from}${to}`}>
                             <ListItemText primary={`${from} - ${to}`}/>
                             <ListItemSecondaryAction>
-                                <IconButton edge="end" aria-label="delete working hours">
+                                <IconButton
+                                    edge="end"
+                                    aria-label="delete working hours"
+                                    onClick={() => handleDelete({workingHoursIndex})}
+                                >
                                     <DeleteIcon/>
                                 </IconButton>
                             </ListItemSecondaryAction>
@@ -43,5 +52,6 @@ WorkingHoursInput.propTypes = {
             from: PropTypes.string.isRequired,
             to: PropTypes.string.isRequired
         })).isRequired
-    }).isRequired
+    }).isRequired,
+    onDelete: PropTypes.func.isRequired
 }
