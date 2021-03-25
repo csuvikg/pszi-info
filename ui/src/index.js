@@ -1,11 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import {App} from "./App";
+import reportWebVitals from "./reportWebVitals";
+import {MuiPickersUtilsProvider} from "@material-ui/pickers"
+import DateTimeUtils from "@date-io/dayjs"
+
 
 ReactDOM.render(
-    <App/>,
-    document.getElementById('root')
+    <MuiPickersUtilsProvider utils={DateTimeUtils}>
+        <App/>
+    </MuiPickersUtilsProvider>,
+    document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
