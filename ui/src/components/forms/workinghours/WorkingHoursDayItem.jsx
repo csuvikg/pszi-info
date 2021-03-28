@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
 
-export const WorkingHoursInput = ({data: {value, label, workingHours}, onDelete}) => {
+export const WorkingHoursDayItem = ({data: {value, label, workingHours}, onDelete}) => {
     const handleDelete = ({workingHoursIndex}) => onDelete({
         day: value,
         workingHoursIndex
@@ -44,7 +44,7 @@ export const WorkingHoursInput = ({data: {value, label, workingHours}, onDelete}
     </Card>
 }
 
-WorkingHoursInput.propTypes = {
+WorkingHoursDayItem.propTypes = {
     data: PropTypes.shape({
         value: PropTypes.oneOf(["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]).isRequired,
         label: PropTypes.string.isRequired,

@@ -9,7 +9,7 @@ import {
 import {ToggleButton, ToggleButtonGroup} from "@material-ui/lab";
 import PropTypes from "prop-types";
 import {useState} from "react";
-import {DAYS} from "./WorkingHoursWeekInput";
+import {DAYS} from "./WorkingHoursInput";
 import {TimePicker} from "@material-ui/pickers";
 import dayjs from "dayjs";
 

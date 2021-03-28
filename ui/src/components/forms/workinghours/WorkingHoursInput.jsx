@@ -6,7 +6,7 @@ import {
     Grid,
 } from "@material-ui/core";
 import {useState} from "react";
-import {WorkingHoursInput} from "./WorkingHoursInput";
+import {WorkingHoursDayItem} from "./WorkingHoursDayItem";
 import {Add} from "@material-ui/icons";
 import {WorkingHoursAddModal} from "./WorkingHoursAddModal";
 
@@ -55,7 +55,7 @@ export const DAYS = {
     }
 }
 
-export const WorkingHoursWeekInput = () => {
+export const WorkingHoursInput = () => {
     const [workingHours, setWorkingHours] = useState(DAYS);
     const [isDialogOpen, setDialogOpen] = useState(false);
 
@@ -80,7 +80,7 @@ export const WorkingHoursWeekInput = () => {
                 <Grid container spacing={1}>
                     {Object.values(workingHours).filter(({workingHours}) => workingHours && workingHours.length > 0).map(data =>
                         <Grid key={`${data.value}-grid`} item xs={12} sm={6} md={4}>
-                            <WorkingHoursInput data={data} onDelete={handleWorkingHoursDeleted} key={data.value}/>
+                            <WorkingHoursDayItem data={data} onDelete={handleWorkingHoursDeleted} key={data.value}/>
                         </Grid>
                     )}
                     <Grid item xs={12} sm={6} md={4}>
