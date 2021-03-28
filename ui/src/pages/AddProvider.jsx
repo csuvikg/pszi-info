@@ -30,10 +30,18 @@ const useStyles = makeStyles(() => ({
 export const AddProvider = () => {
     const classes = useStyles();
     const [name, setName] = useState("");
+    const [postalCode, setPostalCode] = useState("");
+    const [city, setCity] = useState("");
+    const [address, setAddress] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [email, setEmail] = useState("");
+    const [website, setWebsite] = useState("");
+    const [workingHours, setWorkingHours] = useState(null);
     const [isReservationNeeded, setReservationNeeded] = useState("UNKNOWN");
     const [isReferralNeeded, setReferralNeeded] = useState("UNKNOWN");
     const [acceptsUrgentCases, setAcceptsUrgentCases] = useState("UNKNOWN");
     const [waitingList, setWaitingList] = useState("UNKNOWN");
+    const [comment, setComment] = useState("");
 
     return <Grid container spacing={3} className={classes.container}>
         <Grid item xs={12} md={8} lg={6}>
@@ -60,29 +68,67 @@ export const AddProvider = () => {
                     <FormGroup aria-label="contacts">
                         <Grid container spacing={3}>
                             <Grid item xs={12} sm={4}>
-                                <TextField fullWidth required id="postalCode" variant="outlined" size="small"
-                                           label="Irányítószám"/>
+                                <TextField fullWidth required id="postalCode"
+                                           value={postalCode}
+                                           onChange={({target: {value}}) => setPostalCode(value)}
+                                           type="number"
+                                           InputProps={{inputProps: {min: 1000, max: 9999}}}
+                                           variant="outlined"
+                                           size="small"
+                                           label="Irányítószám"
+                                />
                             </Grid>
                             <Grid item xs={12} sm={8}>
-                                <TextField fullWidth required id="city" variant="outlined" size="small"
-                                           label="Település"/>
+                                <TextField fullWidth required id="city"
+                                           value={city}
+                                           onChange={({target: {value}}) => setCity(value)}
+                                           variant="outlined"
+                                           size="small"
+                                           label="Település"
+                                />
                             </Grid>
                             <Grid item xs={12}>
-                                <TextField fullWidth required id="address" variant="outlined" size="small" label="Cím"/>
+                                <TextField fullWidth required id="address"
+                                           value={address}
+                                           onChange={({target: {value}}) => setAddress(value)}
+                                           variant="outlined"
+                                           size="small"
+                                           label="Cím"
+                                />
                             </Grid>
                             <Grid item xs={12}>
-                                <TextField fullWidth id="phoneNumber" variant="outlined" size="small"
-                                           label="Telefonszám"/>
+                                <TextField fullWidth id="phoneNumber"
+                                           value={phoneNumber}
+                                           type="tel"
+                                           onChange={({target: {value}}) => setPhoneNumber(value)}
+                                           variant="outlined" size="small"
+                                           label="Telefonszám"
+                                />
                             </Grid>
                             <Grid item xs={12}>
-                                <TextField fullWidth id="email" type="email" variant="outlined" size="small"
-                                           label="Email cím"/>
+                                <TextField fullWidth id="email"
+                                           value={email}
+                                           onChange={({target: {value}}) => setEmail(value)}
+                                           type="email"
+                                           variant="outlined"
+                                           size="small"
+                                           label="Email cím"
+                                />
                             </Grid>
                             <Grid item xs={12}>
-                                <TextField fullWidth id="website" variant="outlined" size="small" label="Weboldal"/>
+                                <TextField fullWidth id="website"
+                                           value={website}
+                                           onChange={({target: {value}}) => setWebsite(value)}
+                                           type="url"
+                                           variant="outlined"
+                                           size="small"
+                                           label="Weboldal"
+                                />
                             </Grid>
                             <Grid item xs={12}>
-                                <WorkingHoursInput/>
+                                <WorkingHoursInput value={workingHours}
+                                                   onChange={({target: {value}}) => setWorkingHours(value)}
+                                />
                             </Grid>
                         </Grid>
                     </FormGroup>
@@ -134,8 +180,12 @@ export const AddProvider = () => {
                         />
                     </FormGroup>
                     <Divider variant="middle"/>
-                    <TextField multiline rows={5} variant="outlined" label="Megjegyzések"
-                               className={classes.spaceAround}/>
+                    <TextField multiline rows={5} variant="outlined"
+                               value={comment}
+                               onChange={({target: {value}}) => setComment(value)}
+                               label="Megjegyzések"
+                               className={classes.spaceAround}
+                    />
                 </FormControl>
                 <Button type="submit" className={classes.submitButton} variant="contained" color="primary">
                     Elküldés

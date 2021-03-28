@@ -9,6 +9,7 @@ import {useState} from "react";
 import {WorkingHoursDayItem} from "./WorkingHoursDayItem";
 import {Add} from "@material-ui/icons";
 import {WorkingHoursAddModal} from "./WorkingHoursAddModal";
+import PropTypes from "prop-types";
 
 export const DAYS = {
     MONDAY: {
@@ -55,14 +56,19 @@ export const DAYS = {
     }
 }
 
-export const WorkingHoursInput = () => {
-    const [workingHours, setWorkingHours] = useState(DAYS);
+export const WorkingHoursInput = ({value, onChange}) => {
+    const [workingHours, setWorkingHours] = useState(value || DAYS);
     const [isDialogOpen, setDialogOpen] = useState(false);
 
     const handleAddWorkingHours = ({days, from, to}) => {
         const workingHoursTemp = {...workingHours};
         days.forEach(day => workingHoursTemp[day].workingHours.push({from, to}));
         setWorkingHours(workingHoursTemp);
+        onChange({
+            target: {
+                value: workingHoursTemp
+            }
+        });
     }
 
     const handleDialogToggle = () => setDialogOpen(!isDialogOpen);
@@ -71,6 +77,11 @@ export const WorkingHoursInput = () => {
         const workingHoursTemp = {...workingHours};
         workingHoursTemp[day].workingHours.splice(workingHoursIndex);
         setWorkingHours(workingHoursTemp);
+        onChange({
+            target: {
+                value: workingHoursTemp
+            }
+        });
     }
 
     return <>
@@ -100,4 +111,9 @@ export const WorkingHoursInput = () => {
         </FormControl>
         <WorkingHoursAddModal open={isDialogOpen} onClose={handleDialogToggle} onSave={handleAddWorkingHours}/>
     </>
+}
+
+WorkingHoursInput.propTypes = {
+    value: PropTypes.object,
+    onChange: PropTypes.func.isRequired
 }
