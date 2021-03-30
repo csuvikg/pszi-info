@@ -1,7 +1,4 @@
-import {
-    Switch,
-    Route
-} from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 import {AddProvider, DummyPage} from "./pages";
 
 export const ContentSwitch = () =>

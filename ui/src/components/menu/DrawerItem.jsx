@@ -1,5 +1,5 @@
 import {ListItem, ListItemIcon, ListItemText, Tooltip} from "@material-ui/core";
-import {Explore as MapIcon, SupervisorAccount as AdminIcon, AddCircle as AddIcon} from "@material-ui/icons";
+import {AddCircle as AddIcon, Explore as MapIcon, SupervisorAccount as AdminIcon} from "@material-ui/icons";
 import PropTypes from "prop-types";
 import {makeStyles} from "@material-ui/core/styles";
 import {Link} from "react-router-dom";

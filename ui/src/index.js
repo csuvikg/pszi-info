@@ -4,12 +4,16 @@ import {App} from "./App";
 import reportWebVitals from "./reportWebVitals";
 import {MuiPickersUtilsProvider} from "@material-ui/pickers"
 import DayJs from "@date-io/dayjs"
+import {Provider} from "react-redux";
+import {store} from "./services/store";
 
 
 ReactDOM.render(
-    <MuiPickersUtilsProvider utils={DayJs}>
-        <App/>
-    </MuiPickersUtilsProvider>,
+    <Provider store={store}>
+        <MuiPickersUtilsProvider utils={DayJs}>
+            <App/>
+        </MuiPickersUtilsProvider>
+    </Provider>,
     document.getElementById("root")
 );
 

@@ -1,15 +1,9 @@
-import {
-    Button,
-    Divider,
-    FormControl,
-    FormGroup,
-    FormLabel,
-    Grid,
-    TextField,
-} from "@material-ui/core";
+import {Button, Divider, FormControl, FormGroup, FormLabel, Grid, TextField,} from "@material-ui/core";
 import {useState} from "react";
 import {SelectInput, WorkingHoursInput} from "../components";
 import {makeStyles} from "@material-ui/core/styles";
+import {useDispatch} from "react-redux";
+import {createProvider} from "../services";
 
 
 const useStyles = makeStyles(() => ({
@@ -37,6 +31,7 @@ const useStyles = makeStyles(() => ({
 
 export const AddProvider = () => {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const [name, setName] = useState("");
     const [postalCode, setPostalCode] = useState("");
     const [city, setCity] = useState("");
@@ -52,8 +47,8 @@ export const AddProvider = () => {
     const [comment, setComment] = useState("");
 
     const handleSubmit = (e) => {
-        e.preventDefault()
-        console.log({
+        e.preventDefault();
+        dispatch(createProvider({
             name,
             address: {
                 postalCode,
@@ -69,7 +64,7 @@ export const AddProvider = () => {
             acceptsUrgentCases,
             waitingList,
             comment
-        })
+        }));
     }
 
     return <Grid container spacing={3} className={classes.container}>
@@ -77,7 +72,7 @@ export const AddProvider = () => {
             <form onSubmit={handleSubmit} className={classes.form}>
                 <FormControl className={classes.spaceAround}>
                     <TextField required
-                               id="institutionName"
+                               id="providerName"
                                variant="outlined"
                                size="small"
                                label="Intézmény neve"

@@ -1,10 +1,4 @@
-import {
-    Button,
-    FormControl,
-    FormGroup,
-    FormLabel,
-    Grid,
-} from "@material-ui/core";
+import {Button, FormControl, FormGroup, FormLabel, Grid,} from "@material-ui/core";
 import {useState} from "react";
 import {WorkingHoursDayItem} from "./WorkingHoursDayItem";
 import {Add} from "@material-ui/icons";
@@ -36,7 +30,7 @@ export const WorkingHoursInput = ({value, onChange}) => {
 
     const handleWorkingHoursDeleted = ({day, i}) => {
         const temp = {...workingHours};
-        temp[day].splice(i);
+        temp[day].splice(i, 1);
         setWorkingHours(temp);
         onChange({
             target: {
@@ -46,7 +40,7 @@ export const WorkingHoursInput = ({value, onChange}) => {
     }
 
     return <>
-        <FormControl component="fieldset">
+        <FormControl fullWidth component="fieldset">
             <FormLabel component="legend" style={{margin: "1rem 0"}}>Munkaidő</FormLabel>
             <FormGroup aria-label="working hours">
                 <Grid container spacing={1}>

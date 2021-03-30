@@ -13,7 +13,7 @@ import {
 import {ChevronLeft as ChevronLeftIcon, Search as SearchIcon} from "@material-ui/icons";
 import {makeStyles} from "@material-ui/core/styles";
 import clsx from "clsx";
-import {DrawerItemList, MenuButton, ITEM_TYPE} from "./components";
+import {DrawerItemList, ITEM_TYPE, MenuButton} from "./components";
 import {ContentSwitch} from "./ContentSwitch";
 import {HashRouter} from "react-router-dom";
 
