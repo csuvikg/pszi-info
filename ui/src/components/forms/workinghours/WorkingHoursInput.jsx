@@ -10,76 +10,37 @@ import {WorkingHoursDayItem} from "./WorkingHoursDayItem";
 import {Add} from "@material-ui/icons";
 import {WorkingHoursAddModal} from "./WorkingHoursAddModal";
 import PropTypes from "prop-types";
+import {DAYS} from "./consts";
 
-export const DAYS = {
-    MONDAY: {
-        value: "MONDAY",
-        label: "Hétfő",
-        shortLabel: "H",
-        workingHours: []
-    },
-    TUESDAY: {
-        value: "TUESDAY",
-        label: "Kedd",
-        shortLabel: "K",
-        workingHours: []
-    },
-    WEDNESDAY: {
-        value: "WEDNESDAY",
-        label: "Szerda",
-        shortLabel: "Sz",
-        workingHours: []
-    },
-    THURSDAY: {
-        value: "THURSDAY",
-        label: "Csütörtök",
-        shortLabel: "Cs",
-        workingHours: []
-    },
-    FRIDAY: {
-        value: "FRIDAY",
-        label: "Péntek",
-        shortLabel: "P",
-        workingHours: []
-    },
-    SATURDAY: {
-        value: "SATURDAY",
-        label: "Szombat",
-        shortLabel: "Sz",
-        workingHours: []
-    },
-    SUNDAY: {
-        value: "SUNDAY",
-        label: "Vasárnap",
-        shortLabel: "V",
-        workingHours: []
-    }
-}
+const initState = Object.keys(DAYS).reduce((obj, key) => {
+    obj[key] = [];
+    return obj
+}, {});
 
 export const WorkingHoursInput = ({value, onChange}) => {
-    const [workingHours, setWorkingHours] = useState(value || DAYS);
+    const [workingHours, setWorkingHours] = useState(value || initState);
     const [isDialogOpen, setDialogOpen] = useState(false);
 
     const handleAddWorkingHours = ({days, from, to}) => {
-        const workingHoursTemp = {...workingHours};
-        days.forEach(day => workingHoursTemp[day].workingHours.push({from, to}));
-        setWorkingHours(workingHoursTemp);
+        const temp = {...workingHours};
+        days.forEach(day => temp[day].push({from, to}));
+        setWorkingHours(temp);
         onChange({
             target: {
-                value: workingHoursTemp
+                value: temp
             }
         });
     }
 
     const handleDialogToggle = () => setDialogOpen(!isDialogOpen);
 
-    const handleWorkingHoursDeleted = ({day, workingHoursIndex}) => {
-        const workingHoursTemp = {...workingHours};
-        workingHoursTemp[day].workingHours.splice(workingHoursIndex);
-        setWorkingHours(workingHoursTemp);
+    const handleWorkingHoursDeleted = ({day, i}) => {
+        const temp = {...workingHours};
+        temp[day].splice(i);
+        setWorkingHours(temp);
         onChange({
             target: {
-                value: workingHoursTemp
+                value: temp
             }
         });
     }
@@ -89,9 +50,9 @@ export const WorkingHoursInput = ({value, onChange}) => {
             <FormLabel component="legend" style={{margin: "1rem 0"}}>Munkaidő</FormLabel>
             <FormGroup aria-label="working hours">
                 <Grid container spacing={1}>
-                    {Object.values(workingHours).filter(({workingHours}) => workingHours && workingHours.length > 0).map(data =>
-                        <Grid key={`${data.value}-grid`} item xs={12} sm={6} md={4}>
-                            <WorkingHoursDayItem data={data} onDelete={handleWorkingHoursDeleted} key={data.value}/>
+                    {Object.entries(workingHours).filter(([_, value]) => value && value.length > 0).map(([key, value]) =>
+                        <Grid key={`${key}-grid`} item xs={12} sm={6} md={4}>
+                            <WorkingHoursDayItem day={key} data={value} onDelete={handleWorkingHoursDeleted} key={key}/>
                         </Grid>
                     )}
                     <Grid item xs={12} sm={6} md={4}>

@@ -13,12 +13,20 @@ import {makeStyles} from "@material-ui/core/styles";
 
 
 const useStyles = makeStyles(() => ({
+    form: {
+        display: "flex",
+        flexDirection: "column",
+        width: "100%"
+    },
     container: {
         textAlign: "center",
         justifyContent: "center"
     },
     spaceAround: {
         margin: "1rem 0"
+    },
+    spaceBelow: {
+        marginBottom: "1rem"
     },
     submitButton: {
         margin: "1rem 0",
@@ -43,15 +51,30 @@ export const AddProvider = () => {
     const [waitingList, setWaitingList] = useState("UNKNOWN");
     const [comment, setComment] = useState("");
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        console.log({
+            name,
+            address: {
+                postalCode,
+                city,
+                address
+            },
+            phoneNumber,
+            email,
+            website,
+            workingHours,
+            isReservationNeeded,
+            isReferralNeeded,
+            acceptsUrgentCases,
+            waitingList,
+            comment
+        })
+    }
+
     return <Grid container spacing={3} className={classes.container}>
         <Grid item xs={12} md={8} lg={6}>
-            <form onSubmit={e => console.log(e.target)} style={
-                {
-                    display: "flex",
-                    flexDirection: "column",
-                    width: "100%"
-                }
-            }>
+            <form onSubmit={handleSubmit} className={classes.form}>
                 <FormControl className={classes.spaceAround}>
                     <TextField required
                                id="institutionName"
@@ -62,7 +85,7 @@ export const AddProvider = () => {
                                onChange={({target: {value}}) => setName(value)}
                     />
                 </FormControl>
-                <Divider variant="middle" style={{marginBottom: "1rem"}}/>
+                <Divider variant="middle" className={classes.spaceBelow}/>
                 <FormControl component="fieldset">
                     <FormLabel component="legend" className={classes.spaceAround}>Elérhetőségek</FormLabel>
                     <FormGroup aria-label="contacts">

@@ -9,7 +9,7 @@ import {
 import {ToggleButton, ToggleButtonGroup} from "@material-ui/lab";
 import PropTypes from "prop-types";
 import {useState} from "react";
-import {DAYS} from "./WorkingHoursInput";
+import {DAY_LABELS, DAYS} from "./consts";
 import {TimePicker} from "@material-ui/pickers";
 import dayjs from "dayjs";
 
@@ -32,8 +32,8 @@ export const WorkingHoursAddModal = ({open, onClose, onSave}) => {
             <Typography color="textSecondary">Napok</Typography>
             <ToggleButtonGroup value={selectedDays} onChange={handleDaysChanged}
                                style={{width: "100%", justifyContent: "center"}}>
-                {Object.values(DAYS).map(day => <ToggleButton key={day.value} value={day.value} style={{width: "14%"}}>
-                    {day.shortLabel}
+                {Object.values(DAYS).map(day => <ToggleButton key={day} value={day} style={{width: "14%"}}>
+                    {DAY_LABELS[day].shortLabel}
                 </ToggleButton>)}
             </ToggleButtonGroup>
             <Grid container style={{padding: "1rem", alignItems: "center", justifyContent: "center"}}>

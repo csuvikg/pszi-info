@@ -9,28 +9,29 @@ import {
     Typography
 } from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
+import {DAY_LABELS, DAYS} from "./consts";
 
-export const WorkingHoursDayItem = ({data: {value, label, workingHours}, onDelete}) => {
-    const handleDelete = ({workingHoursIndex}) => onDelete({
-        day: value,
-        workingHoursIndex
+export const WorkingHoursDayItem = ({day, data, onDelete}) => {
+    const handleDelete = ({i}) => onDelete({
+        day,
+        i
     })
 
     return <Card style={{height: "100%"}}>
         <CardContent>
             <Typography color="textSecondary">
-                {label}
+                {DAY_LABELS[day].label}
             </Typography>
-            {workingHours && workingHours.length > 0
+            {data && data.length > 0
                 ? <List dense>
-                    {workingHours.map(({from, to}, workingHoursIndex) =>
+                    {data.map(({from, to}, i) =>
                         <ListItem key={`${from}${to}`}>
                             <ListItemText primary={`${from} - ${to}`}/>
                             <ListItemSecondaryAction>
                                 <IconButton
                                     edge="end"
                                     aria-label="delete working hours"
-                                    onClick={() => handleDelete({workingHoursIndex})}
+                                    onClick={() => handleDelete({i})}
                                 >
                                     <DeleteIcon/>
                                 </IconButton>
@@ -45,13 +46,10 @@ export const WorkingHoursDayItem = ({data: {value, label, workingHours}, onDelet
 }
 
 WorkingHoursDayItem.propTypes = {
-    data: PropTypes.shape({
-        value: PropTypes.oneOf(["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]).isRequired,
-        label: PropTypes.string.isRequired,
-        workingHours: PropTypes.arrayOf(PropTypes.shape({
-            from: PropTypes.string.isRequired,
-            to: PropTypes.string.isRequired
-        })).isRequired
-    }).isRequired,
+    day: PropTypes.oneOf(Object.values(DAYS)).isRequired,
+    data: PropTypes.arrayOf(PropTypes.shape({
+        from: PropTypes.string.isRequired,
+        to: PropTypes.string.isRequired
+    })).isRequired,
     onDelete: PropTypes.func.isRequired
 }
