@@ -4,7 +4,7 @@ const PORT = "8080"
 const BASE_URL = `${SCHEME}://${DOMAIN}:${PORT}`
 const PROVIDERS_PATH = "providers"
 
-export const Routes = {
+export const routes = {
     providers: {
         list: `${BASE_URL}/${PROVIDERS_PATH}`
     }

@@ -1,14 +1,27 @@
 import {ACTIONS} from "../actions";
 
-const initState = {};
+const initState = {
+    isLoading: false
+};
 
 export const ProvidersReducer = (state = initState, action) => {
     switch (action.type) {
-        case ACTIONS.ADD_PROVIDER:
+        case ACTIONS.ADD_PROVIDER_REQUEST:
             return {
                 ...state,
-                provider: action.provider
+                isLoading: true
             };
+        case ACTIONS.ADD_PROVIDER_FAILED:
+            return {
+                ...state,
+                errorMessage: action.errorMessage,
+                isLoading: false
+            }
+        case ACTIONS.ADD_PROVIDER_SUCCESS:
+            return {
+                ...state,
+                isLoading: false
+            }
         default:
             return state;
     }
