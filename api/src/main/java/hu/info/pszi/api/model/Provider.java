@@ -2,6 +2,7 @@ package hu.info.pszi.api.model;
 
 import com.sun.istack.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 @Entity(name = "provider")
 public class Provider {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotNull
@@ -20,8 +21,9 @@ public class Provider {
     @NotNull
     private Address address;
 
-    @OneToMany(mappedBy = "provider", cascade = CascadeType.ALL)
-    private List<OpeningHours> openingHours;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "provider_id")
+    private List<WorkingHours> workingHours;
 
     private String phoneNumber;
 
@@ -29,14 +31,14 @@ public class Provider {
 
     private String website;
 
-    private boolean isReservationNeeded;
+    private IsReservationNeeded isReservationNeeded;
 
-    private boolean isReferralNeeded;
+    private IsReferralNeeded isReferralNeeded;
 
-    private boolean acceptsUrgentCasesImmediately;
+    private AcceptsUrgentCases acceptsUrgentCases;
 
     private WaitingList waitingList;
 
     @Lob
-    private String comments;
+    private String comment;
 }

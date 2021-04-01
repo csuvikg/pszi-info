@@ -39,7 +39,7 @@ export const AddProvider = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [email, setEmail] = useState("");
     const [website, setWebsite] = useState("");
-    const [workingHours, setWorkingHours] = useState(null);
+    const [workingHours, setWorkingHours] = useState([]);
     const [isReservationNeeded, setReservationNeeded] = useState("UNKNOWN");
     const [isReferralNeeded, setReferralNeeded] = useState("UNKNOWN");
     const [acceptsUrgentCases, setAcceptsUrgentCases] = useState("UNKNOWN");
@@ -191,6 +191,7 @@ export const AddProvider = () => {
                                      onChange={setWaitingList}
                                      options={[
                                          {value: "UNKNOWN", label: "Nincs adat"},
+                                         {value: "NONE", label: "Nincs várólista"},
                                          {value: "DAYS", label: "Néhány nap"},
                                          {value: "WEEKS", label: "Néhány hét"},
                                          {value: "MONTHS", label: "Néhány hónap"}

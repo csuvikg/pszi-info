@@ -12,8 +12,17 @@ const initState = Object.keys(DAYS).reduce((obj, key) => {
 }, {});
 
 export const WorkingHoursInput = ({value, onChange}) => {
-    const [workingHours, setWorkingHours] = useState(value || initState);
+    const [workingHours, setWorkingHours] = useState(initState);
     const [isDialogOpen, setDialogOpen] = useState(false);
+
+    const getTransformedWorkingHours = () => {
+        return Object.entries(workingHours)
+            .filter(([_, workingHours]) => workingHours.length > 0)
+            .reduce((arr, [day, workingHours]) => {
+                workingHours.forEach(({from, to}) => arr.push({day, fromTime: from, toTime: to}));
+                return arr;
+            }, []);
+    }
 
     const handleAddWorkingHours = ({days, from, to}) => {
         const temp = {...workingHours};
@@ -21,7 +30,7 @@ export const WorkingHoursInput = ({value, onChange}) => {
         setWorkingHours(temp);
         onChange({
             target: {
-                value: temp
+                value: getTransformedWorkingHours()
             }
         });
     }
@@ -34,7 +43,7 @@ export const WorkingHoursInput = ({value, onChange}) => {
         setWorkingHours(temp);
         onChange({
             target: {
-                value: temp
+                value: getTransformedWorkingHours()
             }
         });
     }
@@ -69,6 +78,10 @@ export const WorkingHoursInput = ({value, onChange}) => {
 }
 
 WorkingHoursInput.propTypes = {
-    value: PropTypes.object,
+    value: PropTypes.arrayOf(PropTypes.shape({
+        day: PropTypes.oneOf(Object.keys(DAYS)).isRequired,
+        fromTime: PropTypes.string.isRequired,
+        toTime: PropTypes.string.isRequired
+    })),
     onChange: PropTypes.func.isRequired
 }

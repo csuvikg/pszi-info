@@ -5,16 +5,12 @@ import lombok.Getter;
 import javax.persistence.*;
 import java.time.LocalTime;
 
-@Entity
 @Getter
-public class OpeningHours {
+@Entity
+public class WorkingHours {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
-    private Provider provider;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     private Day day;
 

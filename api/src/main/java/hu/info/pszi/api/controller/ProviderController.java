@@ -45,8 +45,8 @@ public class ProviderController {
                 .buildAndExpand(createdProvider.getId())
                 .toUri();
 
-        List<GeocodingResult> results = geocodingService.getResults(createdProvider.getAddress());
-        System.out.println(results);
+//        List<GeocodingResult> results = geocodingService.getResults(createdProvider.getAddress());
+//        System.out.println(results);
 
         return ResponseEntity.created(location)
                 .body(createdProvider);

@@ -25,14 +25,12 @@ public class GeocodingService {
 
     @SneakyThrows
     public List<GeocodingResult> getResults(Address address) {
-        String addressString = address.getStreet() + " "
-                + address.getNumber() + " "
+        String addressString = address.getAddress() + " "
                 + address.getCity() + ", "
-                + address.getPostalCode() + ", "
-                + address.getCountry();
+                + address.getPostalCode() + ", Hungary";
 
         return Arrays.asList(GeocodingApi.geocode(geoApiCtx, addressString)
-                .components(country(address.getCountry()), postalCode(Integer.toString(address.getPostalCode())))
+                .components(country("Hungary"), postalCode(Integer.toString(address.getPostalCode())))
                 .await());
     }
 
