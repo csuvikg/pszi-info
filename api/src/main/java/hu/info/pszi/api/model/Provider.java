@@ -2,10 +2,9 @@ package hu.info.pszi.api.model;
 
 import com.sun.istack.NotNull;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Entity(name = "provider")
@@ -23,7 +22,7 @@ public class Provider {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "provider_id")
-    private List<WorkingHours> workingHours;
+    private Set<WorkingHours> workingHours;
 
     private String phoneNumber;
 

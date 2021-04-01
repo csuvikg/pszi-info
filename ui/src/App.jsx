@@ -87,7 +87,19 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
     },
     searchBar: {
-        marginLeft: "auto"
+        marginLeft: "auto",
+        '& .MuiInputBase-input': {
+            color: '#fff',
+        },
+        '& .MuiInput-underline:before': {
+            borderBottomColor: '#fff8',
+        },
+        '& .MuiInput-underline:hover:before': {
+            borderBottomColor: '#fff',
+        }
+    },
+    searchIcon: {
+        color: "#fff"
     }
 }))
 
@@ -120,7 +132,7 @@ export const App = ({title}) => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <SearchIcon/>
+                                    <SearchIcon className={classes.searchIcon}/>
                                 </InputAdornment>
                             ),
                         }}

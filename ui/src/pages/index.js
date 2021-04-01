@@ -1,2 +1,2 @@
-export {DummyPage} from "./DummyPage";
+export {ListProviders} from "./ListProviders";
 export {AddProvider} from "./AddProvider";
