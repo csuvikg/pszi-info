@@ -1,1 +1,1 @@
-export {createProvider} from "./providers/actions";
+export {createProvider, listProviders} from "./providers/actions";
