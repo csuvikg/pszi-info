@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
     searchIcon: {
         color: "#fff"
     }
-}))
+}));
 
 export const App = ({title}) => {
     const classes = useStyles();

@@ -11,7 +11,7 @@ import {store} from "./services/store";
 ReactDOM.render(
     <Provider store={store}>
         <MuiPickersUtilsProvider utils={DayJs}>
-            <App/>
+            <App title="Ellátótérkép"/>
         </MuiPickersUtilsProvider>
     </Provider>,
     document.getElementById("root")
