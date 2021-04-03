@@ -8,3 +8,6 @@ spring:
     password: postgres
   profiles:
     include: secrets
+server:
+  error:
+    include-stacktrace: never

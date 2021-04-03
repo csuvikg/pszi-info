@@ -1,6 +1,8 @@
 package hu.info.pszi.api.controller;
 
+import hu.info.pszi.api.exceptions.ResourceNotFoundException;
 import hu.info.pszi.api.model.Provider;
+import hu.info.pszi.api.model.version.Version;
 import hu.info.pszi.api.service.GeocodingService;
 import hu.info.pszi.api.service.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,7 @@ public class ProviderController {
     public ResponseEntity<Provider> findProviderById(@PathVariable int id) {
         return providerService.findProviderById(id)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     @PostMapping
@@ -51,5 +53,12 @@ public class ProviderController {
     public ResponseEntity<Void> deleteProviderById(@PathVariable int id) {
         providerService.deleteProviderById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/version")
+    public ResponseEntity<Version> getLatestVersion() {
+        return providerService.getLatestVersion()
+                .map(ResponseEntity::ok)
+                .orElseThrow(ResourceNotFoundException::new);
     }
 }
