@@ -6,6 +6,7 @@ const PROVIDERS_PATH = "providers"
 
 export const routes = {
     providers: {
-        list: `${BASE_URL}/${PROVIDERS_PATH}`
+        list: `${BASE_URL}/${PROVIDERS_PATH}`,
+        version: `${BASE_URL}/${PROVIDERS_PATH}/version`
     }
 }

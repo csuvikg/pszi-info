@@ -21,7 +21,7 @@ export const createProvider = provider => async dispatch => {
         await axios.post(routes.providers.list, provider);
         dispatch(createProviderSuccess())
     } catch (error) {
-        dispatch(createProviderFailed(error.response));
+        dispatch(createProviderFailed(error.message));
     }
 }
 
@@ -30,21 +30,30 @@ const listProvidersRequest = () => ({
 });
 
 const listProvidersFailed = errorMessage => ({
-   type: ACTIONS.LIST_PROVIDERS_FAILED,
-   errorMessage
+    type: ACTIONS.LIST_PROVIDERS_FAILED,
+    errorMessage
 });
 
 const listProvidersSuccess = providers => ({
-   type: ACTIONS.LIST_PROVIDERS_SUCCESS,
-   providers
+    type: ACTIONS.LIST_PROVIDERS_SUCCESS,
+    providers
 });
 
 export const listProviders = () => async dispatch => {
     dispatch(listProvidersRequest());
     try {
-        const {data} = await axios.get(routes.providers.list);
+        const {data: {version}} = await axios.get(routes.providers.version);
+        const localVersion = parseInt(localStorage.getItem("version"));
+
+        const cache = await caches.open('providers');
+        if (version !== localVersion) {
+            await cache.add(routes.providers.list);
+            localStorage.setItem("version", version);
+        }
+        const response = await cache.match(routes.providers.list);
+        const data = await response.json();
         dispatch(listProvidersSuccess(data));
     } catch (error) {
-        dispatch(listProvidersFailed(error.response));
+        dispatch(listProvidersFailed(error.message));
     }
 }
