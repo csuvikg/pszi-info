@@ -41,21 +41,27 @@ const listProvidersSuccess = providers => ({
 
 export const listProviders = () => async dispatch => {
     dispatch(listProvidersRequest());
-    try {
-        const cache = await caches.open('providers');
-        if (navigator.onLine) {
-            const {data: {version}} = await axios.get(routes.providers.version);
+    const cache = await caches.open("providers");
+    if (navigator.onLine) {
+        try {
+            const response = await fetch(routes.providers.version);
+            const {version} = await response.json();
             const localVersion = parseInt(localStorage.getItem("version"));
 
             if (version !== localVersion) {
                 await cache.add(routes.providers.list);
                 localStorage.setItem("version", version);
             }
+        } catch (error) {
+            // todo: handle
+            console.log(error.message);
         }
-        const response = await cache.match(routes.providers.list);
+    }
+    const response = await cache.match(routes.providers.list);
+    if (response) {
         const data = await response.json();
         dispatch(listProvidersSuccess(data));
-    } catch (error) {
-        dispatch(listProvidersFailed(error.message));
+    } else {
+        dispatch(listProvidersFailed("Could not retrieve providers from cache"));
     }
 }
