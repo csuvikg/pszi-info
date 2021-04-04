@@ -42,13 +42,15 @@ const listProvidersSuccess = providers => ({
 export const listProviders = () => async dispatch => {
     dispatch(listProvidersRequest());
     try {
-        const {data: {version}} = await axios.get(routes.providers.version);
-        const localVersion = parseInt(localStorage.getItem("version"));
-
         const cache = await caches.open('providers');
-        if (version !== localVersion) {
-            await cache.add(routes.providers.list);
-            localStorage.setItem("version", version);
+        if (navigator.onLine) {
+            const {data: {version}} = await axios.get(routes.providers.version);
+            const localVersion = parseInt(localStorage.getItem("version"));
+
+            if (version !== localVersion) {
+                await cache.add(routes.providers.list);
+                localStorage.setItem("version", version);
+            }
         }
         const response = await cache.match(routes.providers.list);
         const data = await response.json();
