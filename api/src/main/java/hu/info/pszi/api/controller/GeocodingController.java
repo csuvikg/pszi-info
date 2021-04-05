@@ -1,6 +1,7 @@
 package hu.info.pszi.api.controller;
 
 import com.google.maps.model.GeocodingResult;
+import hu.info.pszi.api.model.Address;
 import hu.info.pszi.api.service.GeocodingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +17,8 @@ public class GeocodingController {
     this.service = service;
   }
 
-  @GetMapping
-  public ResponseEntity<List<GeocodingResult>> geocode(@RequestParam String address) {
+  @PostMapping
+  public ResponseEntity<List<GeocodingResult>> geocode(@RequestBody Address address) {
     return ResponseEntity.ok(service.getResults(address));
   }
 }

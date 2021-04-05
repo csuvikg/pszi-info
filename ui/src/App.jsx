@@ -20,6 +20,33 @@ import {HashRouter} from "react-router-dom";
 const drawerWidth = 280;
 
 const useStyles = makeStyles((theme) => ({
+    // todo: scrollbar
+    // maybe only to specific containers?
+    // "@global": {
+    //     "*::-webkit-scrollbar": {
+    //         height: "8px",
+    //         width: "6px"
+    //         // width: "0.4em"
+    //     },
+    //     "*::-webkit-scrollbar-track-piece": {
+    //         background: "#F0F0F0"
+    //     },
+    //     // "*::-webkit-scrollbar-track": {
+    //     //     "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)"
+    //     // },
+    //     // "*::-webkit-scrollbar-thumb": {
+    //     //     backgroundColor: "rgba(0,0,0,.1)",
+    //     //     outline: "1px solid slategrey"
+    //     // }
+    //     "*::-webkit-scrollbar-thumb:vertical": {
+    //         background: "#E5E5E5",
+    //         borderRadius: "20px"
+    //     },
+    //     "*::-webkit-scrollbar-thumb:horizontal": {
+    //         background: "#E5E5E5",
+    //         borderRadius: "20px"
+    //     }
+    // },
     root: {
         display: "flex",
     },
