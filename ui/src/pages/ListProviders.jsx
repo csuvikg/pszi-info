@@ -6,17 +6,20 @@ import {listProviders} from "../services";
 import {MapContainer, TileLayer, Marker, Popup} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import {ProviderFilters, ProviderListItem} from "../components";
+import {ProviderFilters, ProviderListItem, ProviderMap} from "../components";
 
 L.Icon.Default.imagePath = "images/";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     container: {
         justifyContent: "center"
     },
     providerList: {
         height: "calc(100vh - 72px)",
-        overflowY: "scroll"
+        overflowY: "scroll",
+        [theme.breakpoints.down("sm")]: {
+            overflowY: "visible"
+        },
     }
 }));
 
@@ -42,25 +45,12 @@ export const ListProviders = () => {
 
     return <Grid container spacing={3} className={classes.container}>
         <Grid item xs={12} md={6} lg={8} xl={9}>
-            <Grid container>
+            <Grid container spacing={1}>
                 <Grid item xs={12} xl={3}>
                     <ProviderFilters/>
                 </Grid>
                 <Grid item xs={12} xl={9}>
-                    <Card>
-                        <MapContainer center={[47.509425, 19.1260431]} zoom={7} scrollWheelZoom={true}
-                                      style={{height: "600px"}}>
-                            <TileLayer
-                                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
-                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            />
-                            <Marker position={[47.509425, 19.1260431]}>
-                                <Popup>
-                                    A pretty CSS3 popup. <br/> Easily customizable.
-                                </Popup>
-                            </Marker>
-                        </MapContainer>
-                    </Card>
+                    <ProviderMap/>
                 </Grid>
             </Grid>
         </Grid>

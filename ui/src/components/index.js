@@ -5,3 +5,4 @@ export {WorkingHoursInput} from "./forms/workinghours/WorkingHoursInput";
 export {SelectInput} from "./forms/SelectInput";
 export {ProviderListItem} from "./ProviderListItem";
 export {ProviderFilters} from "./ProviderFilters";
+export {ProviderMap} from "./ProviderMap";

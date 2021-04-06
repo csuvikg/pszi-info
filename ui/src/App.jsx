@@ -89,10 +89,10 @@ const useStyles = makeStyles((theme) => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         overflowX: "hidden",
-        width: theme.spacing(7) + 1,
-        [theme.breakpoints.up("sm")]: {
-            width: theme.spacing(9) + 1,
-        },
+        width: theme.spacing(9) + 1,
+        [theme.breakpoints.only("xs")]: {
+            width: 0,
+        }
     },
     toolbar: {
         display: "flex",
@@ -103,9 +103,9 @@ const useStyles = makeStyles((theme) => ({
     },
     content: {
         flexGrow: 1,
-        marginLeft: theme.spacing(7) + 1,
-        [theme.breakpoints.up("sm")]: {
-            marginLeft: theme.spacing(9) + 1,
+        marginLeft: theme.spacing(9) + 1,
+        [theme.breakpoints.only("xs")]: {
+            marginLeft: 0
         },
         transition: theme.transitions.create("margin-left", {
             easing: theme.transitions.easing.sharp,
