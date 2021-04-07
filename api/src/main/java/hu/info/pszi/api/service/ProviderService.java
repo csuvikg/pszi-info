@@ -1,11 +1,14 @@
 package hu.info.pszi.api.service;
 
+import com.google.maps.model.LatLng;
+import hu.info.pszi.api.model.Coords;
 import hu.info.pszi.api.model.Provider;
 import hu.info.pszi.api.model.version.Version;
 import hu.info.pszi.api.repository.ProviderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,10 +18,12 @@ import java.util.stream.StreamSupport;
 @Service
 public class ProviderService {
     private final ProviderRepository providerRepository;
+    private final GeocodingService geocodingService;
 
     @Autowired
-    public ProviderService(ProviderRepository providerRepository) {
+    public ProviderService(ProviderRepository providerRepository, GeocodingService geocodingService) {
         this.providerRepository = providerRepository;
+        this.geocodingService = geocodingService;
     }
 
     @CacheEvict(value = "version", allEntries = true)
@@ -36,6 +41,9 @@ public class ProviderService {
 
     @CacheEvict(value = "version", allEntries = true)
     public Provider createProvider(Provider provider) {
+        geocodingService.geocode(provider.getAddress())
+                .map(latLng -> new Coords(latLng.lat, latLng.lng))
+                .ifPresent(provider.getAddress()::setCoords);
         return providerRepository.save(provider);
     }
 

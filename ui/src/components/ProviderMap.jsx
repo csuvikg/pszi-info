@@ -1,6 +1,7 @@
-import {Card} from "@material-ui/core";
+import {Button, Card, Typography} from "@material-ui/core";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {makeStyles} from "@material-ui/core/styles";
+import {useSelector} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     map: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const ProviderMap = () => {
     const classes = useStyles();
+    const {providers} = useSelector(state => state.providers);
 
     return <Card>
         <MapContainer center={[47.509425, 19.1260431]} zoom={7} scrollWheelZoom={true}
@@ -34,11 +36,15 @@ export const ProviderMap = () => {
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={[47.509425, 19.1260431]}>
-                <Popup>
-                    A pretty CSS3 popup. <br/> Easily customizable.
-                </Popup>
-            </Marker>
+            {providers.map(({id, name, address: {city, postalCode, address, coords: {lat, lng}}}) =>
+                <Marker key={id} position={[lat, lng]}>
+                    <Popup>
+                        <Typography>{name}</Typography>
+                        <Typography>{`${postalCode} ${city}, ${address}`}</Typography>
+                        <Button>Részletek</Button>
+                    </Popup>
+                </Marker>)
+            }
         </MapContainer>
     </Card>
 }

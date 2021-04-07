@@ -3,13 +3,14 @@ package hu.info.pszi.api.service;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.model.GeocodingResult;
+import com.google.maps.model.LatLng;
 import hu.info.pszi.api.model.Address;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Optional;
 
 import static com.google.maps.model.ComponentFilter.country;
 import static com.google.maps.model.ComponentFilter.postalCode;
@@ -24,13 +25,17 @@ public class GeocodingService {
     }
 
     @SneakyThrows
-    public List<GeocodingResult> getResults(Address address) {
+    public Optional<LatLng> geocode(Address address) {
         String addressString = address.getAddress() + " "
                 + address.getCity() + ", "
                 + address.getPostalCode() + ", Hungary";
 
-        return Arrays.asList(GeocodingApi.geocode(geoApiCtx, addressString)
+        GeocodingResult[] results = GeocodingApi.geocode(geoApiCtx, addressString)
                 .components(country("Hungary"), postalCode(Integer.toString(address.getPostalCode())))
-                .await());
+                .await();
+
+        return Arrays.stream(results)
+                .map(result -> result.geometry.location)
+                .findFirst();
     }
 }

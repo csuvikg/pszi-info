@@ -1,23 +1,29 @@
 package hu.info.pszi.api.model;
 
-import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Embeddable
 @NoArgsConstructor
 @Data
 public class Address implements Serializable {
-    @NotNull
+    @NotBlank
     private String city;
 
-    @NotNull
+    @Min(1000)
+    @Max(9999)
     private int postalCode;
 
-    @NotNull
+    @NotBlank
     private String address;
+
+    @Embedded
+    private Coords coords;
 }

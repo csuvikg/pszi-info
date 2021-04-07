@@ -1,16 +1,19 @@
 package hu.info.pszi.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.NotNull;
+import lombok.Data;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 
-@Getter
+@Data
 @Entity(name = "provider")
 @EntityListeners(AuditingEntityListener.class)
 public class Provider {
@@ -18,7 +21,7 @@ public class Provider {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull
+    @NotBlank
     private String name;
 
     @Embedded
@@ -42,6 +45,10 @@ public class Provider {
     private AcceptsUrgentCases acceptsUrgentCases;
 
     private WaitingList waitingList;
+
+    @Enumerated
+    @ElementCollection(targetClass = TargetGroup.class)
+    private List<TargetGroup> targetGroups;
 
     @Lob
     private String comment;

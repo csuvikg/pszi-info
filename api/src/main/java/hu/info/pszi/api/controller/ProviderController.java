@@ -7,6 +7,7 @@ import hu.info.pszi.api.service.GeocodingService;
 import hu.info.pszi.api.service.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -38,7 +39,7 @@ public class ProviderController {
     }
 
     @PostMapping
-    public ResponseEntity<Provider> createProvider(@RequestBody Provider provider) {
+    public ResponseEntity<Provider> createProvider(@Validated @RequestBody Provider provider) {
         Provider createdProvider = providerService.createProvider(provider);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
