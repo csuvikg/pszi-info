@@ -1,10 +1,12 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
-import {ProvidersReducer} from "./providers/reducer";
-import {composeWithDevTools} from "redux-devtools-extension";
 import thunk from "redux-thunk";
+import {composeWithDevTools} from "redux-devtools-extension";
+import {ProvidersReducer} from "./providers/reducer";
+import {ArticlesReducer} from "./articles/reducer";
 
 export const configureStore = (initState = {}) => {
     return createStore(combineReducers({
+        articles: ArticlesReducer,
         providers: ProvidersReducer
     }), initState, composeWithDevTools(applyMiddleware(thunk)));
 };

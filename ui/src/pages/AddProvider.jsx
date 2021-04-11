@@ -17,7 +17,7 @@ import {createProvider} from "../services";
 
 const useStyles = makeStyles((theme) => ({
     card: {
-      height: "100%"
+        height: "100%"
     },
     checkboxGroup: {
         flexDirection: "row",
@@ -50,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
     },
     submitButton: {
         margin: "1rem 0",
-        width: "50%",
         alignSelf: "flex-end"
     }
 }));
@@ -75,7 +74,7 @@ export const AddProvider = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(createProvider({
+        const provider = {
             name,
             address: {
                 postalCode,
@@ -92,7 +91,16 @@ export const AddProvider = () => {
             acceptsUrgentCases,
             waitingList,
             comment
-        }));
+        };
+
+        dispatch(createProvider(
+            Object.entries(provider)
+                .filter(([_, v]) => v !== "")
+                .reduce((a, [k, v]) => {
+                    a[k] = v;
+                    return a;
+                }, {})
+        ));
     }
 
     const handleChangeTargetGroups = ({target: {value}}, shouldAdd) => {

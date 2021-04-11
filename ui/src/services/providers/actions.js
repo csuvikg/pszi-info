@@ -46,11 +46,11 @@ export const listProviders = () => async dispatch => {
         try {
             const response = await fetch(routes.providers.version);
             const {version} = await response.json();
-            const localVersion = parseInt(localStorage.getItem("version"));
+            const localVersion = parseInt(localStorage.getItem("providers_version"));
 
             if (version !== localVersion) {
                 await cache.add(routes.providers.list);
-                localStorage.setItem("version", version);
+                localStorage.setItem("providers_version", version);
             }
         } catch (error) {
             // todo: handle

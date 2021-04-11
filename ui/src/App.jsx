@@ -189,7 +189,8 @@ export const App = ({title}) => {
                 <Divider/>
                 <DrawerItemList items={
                     [
-                        {label: "Intézmény hozzáadása", type: ITEM_TYPE.ADD, path: "/providers/add"},
+                        {label: "Intézmény hozzáadása", type: ITEM_TYPE.ADD_PROVIDER, path: "/providers/add"},
+                        {label: "Cikk hozzáadása", type: ITEM_TYPE.ADD_ARTICLE, path: "/articles/add"},
                         {label: "Admin", type: ITEM_TYPE.ADMIN, path: "/admin"}
                     ]
                 }/>

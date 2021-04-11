@@ -2,6 +2,9 @@ import {Button, Card, Typography} from "@material-ui/core";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {makeStyles} from "@material-ui/core/styles";
 import {useSelector} from "react-redux";
+import {renderToStaticMarkup} from "react-dom/server";
+import {divIcon} from "leaflet";
+import {Room} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     map: {
@@ -29,6 +32,11 @@ export const ProviderMap = () => {
     const classes = useStyles();
     const {providers} = useSelector(state => state.providers);
 
+    const iconMarkup = renderToStaticMarkup(<Room fontSize="large"/>);
+    const customMarkerIcon = divIcon({
+        html: iconMarkup,
+    });
+
     return <Card>
         <MapContainer center={[47.509425, 19.1260431]} zoom={7} scrollWheelZoom={true}
                       className={classes.map}>
@@ -37,7 +45,7 @@ export const ProviderMap = () => {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             {providers.map(({id, name, address: {city, postalCode, address, coords: {lat, lng}}}) =>
-                <Marker key={id} position={[lat, lng]}>
+                <Marker key={id} position={[lat, lng]} icon={customMarkerIcon}>
                     <Popup>
                         <Typography>{name}</Typography>
                         <Typography>{`${postalCode} ${city}, ${address}`}</Typography>

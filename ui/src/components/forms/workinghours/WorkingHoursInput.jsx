@@ -58,13 +58,12 @@ export const WorkingHoursInput = ({value, onChange}) => {
                             <WorkingHoursDayItem day={key} data={value} onDelete={handleWorkingHoursDeleted} key={key}/>
                         </Grid>
                     )}
-                    <Grid item xs={12} sm={6} md={4}>
+                    <Grid item xs={12} sm={6} md={4} style={{textAlign: "left"}}>
                         <Button
                             variant="contained"
                             color="primary"
                             size="medium"
                             startIcon={<Add/>}
-                            style={{width: "100%", height: "100%", minWidth: "150px", maxWidth: "100%"}}
                             onClick={handleDialogToggle}
                         >
                             Hozzáadás
