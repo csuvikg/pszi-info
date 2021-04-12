@@ -10,5 +10,7 @@ jobs:
         with:
           java-version: '15'
           distribution: 'adopt'
+      - name: Make gradlew executable
+        run: chmod +x api/gradlew
       - name: Test with Gradle
         run: ./api/gradlew test
