@@ -2,7 +2,7 @@ package hu.info.pszi.api.controller;
 
 import com.google.maps.model.LatLng;
 import hu.info.pszi.api.exceptions.GeocodingFailedException;
-import hu.info.pszi.api.model.Address;
+import hu.info.pszi.api.model.provider.Address;
 import hu.info.pszi.api.service.GeocodingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

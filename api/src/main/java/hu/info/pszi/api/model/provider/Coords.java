@@ -1,4 +1,4 @@
-package hu.info.pszi.api.model;
+package hu.info.pszi.api.model.provider;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

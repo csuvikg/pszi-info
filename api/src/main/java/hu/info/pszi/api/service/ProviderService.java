@@ -1,14 +1,12 @@
 package hu.info.pszi.api.service;
 
-import com.google.maps.model.LatLng;
-import hu.info.pszi.api.model.Coords;
-import hu.info.pszi.api.model.Provider;
-import hu.info.pszi.api.model.version.Version;
+import hu.info.pszi.api.model.provider.Coords;
+import hu.info.pszi.api.model.provider.Provider;
+import hu.info.pszi.api.model.Version;
 import hu.info.pszi.api.repository.ProviderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
