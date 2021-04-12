@@ -10,7 +10,9 @@ jobs:
         with:
           java-version: '15'
           distribution: 'adopt'
+      - name: Change into backend project root
+        run: cd api
       - name: Make gradlew executable
-        run: chmod +x api/gradlew
+        run: chmod +x gradlew
       - name: Test with Gradle
-        run: ./api/gradlew test
+        run: ./gradlew test
