@@ -6,8 +6,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/pszi_info
     username: postgres
     password: postgres
-  profiles:
-    include: secrets
 server:
   error:
     include-stacktrace: never
+google-maps:
+  geo-api-key: "${GOOGLE_MAPS_API_KEY}"
