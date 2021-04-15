@@ -1,7 +1,4 @@
-const SCHEME = "http"
-const DOMAIN = "localhost"
-const PORT = "8080"
-const BASE_URL = `${SCHEME}://${DOMAIN}:${PORT}`
+const BASE_URL = `${process.env.API_SCHEMA}://${process.env.API_DOMAIN}:${process.env.API_PORT}`
 const ARTICLES_PATH = "articles"
 const PROVIDERS_PATH = "providers"
 

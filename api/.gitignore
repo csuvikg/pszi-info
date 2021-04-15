@@ -4,6 +4,3 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-
-# Secrets
-src/main/resources/application-secrets.yaml

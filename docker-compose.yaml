@@ -6,33 +6,34 @@ services:
     ports:
       - '5432:5432'
     environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=pszi_info
+      - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
+      - "POSTGRES_DB=${POSTGRES_DATABASE}"
     volumes:
       - dbdata:/var/lib/postgresql/data
-    networks:
-      - pszi-info
   api:
-    build: api/
+    image: csuvikg/pszi-info-api:latest
     ports:
       - '8080:8080'
-    networks:
-      - pszi-info
+    environment:
+      - "POSTGRES_HOST=${POSTGRES_HOST}"
+      - "POSTGRES_PORT=${POSTGRES_PORT}"
+      - "POSTGRES_DATABASE=${POSTGRES_DATABASE}"
+      - "POSTGRES_USERNAME=${POSTGRES_USERNAME}"
+      - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
+      - "GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY}"
     depends_on:
       - db
   ui:
-    build: ui/
+    image: csuvikg/pszi-info-ui:latest
+    environment:
+      - "API_SCHEMA=${API_SCHEMA}"
+      - "API_DOMAIN=${API_DOMAIN}"
+      - "API_PORT=${API_PORT}"
     ports:
       - '3080:80'
       - '3443:443'
-    networks:
-      - pszi-info
     depends_on:
       - api
 
 volumes:
   dbdata:
-
-networks:
-  pszi-info:
-    driver: bridge
