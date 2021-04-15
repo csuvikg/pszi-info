@@ -4,7 +4,7 @@ plugins {
     id 'java'
 }
 
-group = 'hu.info.pszi'
+group = 'hu.info.pszi.api'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '15'
 
@@ -36,6 +36,13 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+bootJar {
+    manifest {
+        attributes 'Start-Class': 'hu.info.pszi.api.ApiApplication'
+        attributes 'Main-Class': 'org.springframework.boot.loader.JarLauncher'
+    }
 }
 
 jar {
