@@ -1,4 +1,4 @@
-const BASE_URL = `${process.env.API_SCHEMA}://${process.env.API_DOMAIN}:${process.env.API_PORT}`
+const BASE_URL = `${process.env.REACT_APP_API_SCHEMA}://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}`
 const ARTICLES_PATH = "articles"
 const PROVIDERS_PATH = "providers"
 
