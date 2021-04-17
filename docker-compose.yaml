@@ -3,6 +3,7 @@ version: '3.8'
 services:
   db:
     image: postgres:13-alpine
+    restart: unless-stopped
     ports:
       - '5432:5432'
     environment:
@@ -12,6 +13,7 @@ services:
       - dbdata:/var/lib/postgresql/data
   api:
     image: csuvikg/pszi-info-api:latest
+    restart: unless-stopped
     ports:
       - '8080:8080'
     environment:
@@ -23,17 +25,24 @@ services:
       GOOGLE_MAPS_API_KEY: "${GOOGLE_MAPS_API_KEY}"
     depends_on:
       - db
-  ui:
-    image: csuvikg/pszi-info-ui:latest
-#    environment:
-#      API_SCHEMA: "${API_SCHEMA}"
-#      API_DOMAIN: "${API_DOMAIN}"
-#      API_PORT: "${API_PORT}"
+  nginx:
+    image: nginx:1.15-alpine
+    restart: unless-stopped
+    volumes:
+      - ./data/nginx:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
     ports:
-      - '3080:80'
-      - '3443:443'
-    depends_on:
-      - api
+      - "80:80"
+      - "443:443"
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+  certbot:
+    image: certbot/certbot
+    restart: unless-stopped
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
 volumes:
   dbdata:
