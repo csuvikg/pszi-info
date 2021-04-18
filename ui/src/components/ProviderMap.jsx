@@ -5,6 +5,7 @@ import {useSelector} from "react-redux";
 import {renderToStaticMarkup} from "react-dom/server";
 import {divIcon} from "leaflet";
 import {Room} from "@material-ui/icons";
+import {useEffect, useState} from "react";
 
 const useStyles = makeStyles((theme) => ({
     map: {
@@ -28,9 +29,30 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+const defaultCenterValue = [47.509425, 19.1260431];
+
 export const ProviderMap = () => {
     const classes = useStyles();
     const {providers} = useSelector(state => state.providers);
+    const [center, setCenter] = useState(defaultCenterValue);
+
+    const setCurrentUserPosition = () => {
+        navigator.geolocation.getCurrentPosition(position => {
+            setCenter([position.coords.latitude, position.coords.longitude]);
+        });
+    }
+
+    useEffect(() => {
+        (async () => {
+            if (navigator.permissions) {
+                const result = await navigator.permissions.query({name: 'geolocation'});
+                if (result.state === 'granted') setCurrentUserPosition();
+                result.onchange = e => e.target.state === 'granted'
+                    ? setCurrentUserPosition()
+                    : setCenter(defaultCenterValue);
+            }
+        })();
+    }, []);
 
     const iconMarkup = renderToStaticMarkup(<Room fontSize="large"/>);
     const customMarkerIcon = divIcon({
@@ -38,7 +60,7 @@ export const ProviderMap = () => {
     });
 
     return <Card>
-        <MapContainer center={[47.509425, 19.1260431]} zoom={7} scrollWheelZoom={true}
+        <MapContainer center={center} zoom={10} scrollWheelZoom={true}
                       className={classes.map}>
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'

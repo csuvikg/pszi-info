@@ -1,9 +1,8 @@
-import {Card, Grid} from "@material-ui/core";
+import {Grid} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {listProviders} from "../services";
-import {MapContainer, TileLayer, Marker, Popup} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import {ProviderFilters, ProviderListItem, ProviderMap} from "../components";
@@ -26,22 +25,11 @@ const useStyles = makeStyles((theme) => ({
 export const ListProviders = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { providers } = useSelector(state => state.providers);
-    const [isGeolocationEnabled, setGeolocationEnabled] = useState(false);
+    const {providers} = useSelector(state => state.providers);
 
     useEffect(() => {
         if (providers.length === 0) dispatch(listProviders());
     }, [dispatch, providers]);
-
-    useEffect(() => {
-        (async () => {
-            if (navigator.permissions) {
-                const result = await navigator.permissions.query({name: 'geolocation'});
-                setGeolocationEnabled(result.state === 'granted');
-                result.onchange = e => setGeolocationEnabled(e.target.state === 'granted');
-            }
-        })();
-    }, []);
 
     return <Grid container spacing={3} className={classes.container}>
         <Grid item xs={12} md={6} lg={8} xl={9}>

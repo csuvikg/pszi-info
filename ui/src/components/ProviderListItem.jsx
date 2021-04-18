@@ -8,7 +8,7 @@ import {
     makeStyles,
     Typography
 } from "@material-ui/core";
-import {AlternateEmail, ExpandMore, Info, Phone, Room, Web} from "@material-ui/icons";
+import {AlternateEmail, ExpandMore, Phone, Room, Web} from "@material-ui/icons";
 import {useState} from "react";
 import clsx from "clsx";
 import dayjs from "dayjs";

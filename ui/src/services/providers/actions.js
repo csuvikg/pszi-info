@@ -1,6 +1,6 @@
 import {ACTIONS} from "../actions";
-import axios from "axios";
 import {routes} from "../routes";
+import {getHeaders} from "../helpers";
 
 const createProviderRequest = () => ({
     type: ACTIONS.ADD_PROVIDER_REQUEST
@@ -18,7 +18,11 @@ const createProviderSuccess = () => ({
 export const createProvider = provider => async dispatch => {
     dispatch(createProviderRequest());
     try {
-        await axios.post(routes.providers.list, provider);
+        await fetch(routes.providers.list, {
+            method: "POST",
+            headers: getHeaders(),
+            body: JSON.stringify(provider)
+        });
         dispatch(createProviderSuccess())
     } catch (error) {
         dispatch(createProviderFailed(error.message));
@@ -44,12 +48,18 @@ export const listProviders = () => async dispatch => {
     const cache = await caches.open("providers");
     if (navigator.onLine) {
         try {
-            const response = await fetch(routes.providers.version);
+            const response = await fetch(routes.providers.version, {
+                method: "GET",
+                headers: getHeaders()
+            });
             const {version} = await response.json();
             const localVersion = parseInt(localStorage.getItem("providers_version"));
 
             if (version !== localVersion) {
-                await cache.add(routes.providers.list);
+                await cache.add(new Request(routes.providers.list, {
+                    method: "GET",
+                    headers: getHeaders()
+                }));
                 localStorage.setItem("providers_version", version);
             }
         } catch (error) {

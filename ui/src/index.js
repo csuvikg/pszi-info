@@ -6,12 +6,25 @@ import {MuiPickersUtilsProvider} from "@material-ui/pickers"
 import DayJs from "@date-io/dayjs"
 import {Provider} from "react-redux";
 import {store} from "./services/store";
+import {FirebaseAppProvider} from "reactfire";
 
+const firebaseConfig = {
+    apiKey: "AIzaSyDdydSSTdHQE-uFyG4dwC6vtPAY88yAgu4",
+    authDomain: "pszi-info.firebaseapp.com",
+    databaseURL: "https://pszi-info.firebaseio.com",
+    projectId: "pszi-info",
+    storageBucket: "pszi-info.appspot.com",
+    messagingSenderId: "209820198501",
+    appId: "1:209820198501:web:e306a2b58a0aad03f5488c",
+    measurementId: "G-8LYK995FCQ"
+};
 
 ReactDOM.render(
     <Provider store={store}>
         <MuiPickersUtilsProvider utils={DayJs}>
-            <App title="Ellátótérkép"/>
+            <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+                <App title="Ellátótérkép"/>
+            </FirebaseAppProvider>
         </MuiPickersUtilsProvider>
     </Provider>,
     document.getElementById("root")

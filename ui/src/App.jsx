@@ -13,40 +13,15 @@ import {
 import {ChevronLeft as ChevronLeftIcon, Search as SearchIcon} from "@material-ui/icons";
 import {makeStyles} from "@material-ui/core/styles";
 import clsx from "clsx";
-import {DrawerItemList, ITEM_TYPE, MenuButton} from "./components";
+import {AccountManagement, DrawerItemList, ITEM_TYPE, MenuButton} from "./components";
 import {ContentSwitch} from "./ContentSwitch";
 import {HashRouter} from "react-router-dom";
+import "firebase/auth";
+import {useUser} from "reactfire";
 
 const drawerWidth = 280;
 
 const useStyles = makeStyles((theme) => ({
-    // todo: scrollbar
-    // maybe only to specific containers?
-    // "@global": {
-    //     "*::-webkit-scrollbar": {
-    //         height: "8px",
-    //         width: "6px"
-    //         // width: "0.4em"
-    //     },
-    //     "*::-webkit-scrollbar-track-piece": {
-    //         background: "#F0F0F0"
-    //     },
-    //     // "*::-webkit-scrollbar-track": {
-    //     //     "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)"
-    //     // },
-    //     // "*::-webkit-scrollbar-thumb": {
-    //     //     backgroundColor: "rgba(0,0,0,.1)",
-    //     //     outline: "1px solid slategrey"
-    //     // }
-    //     "*::-webkit-scrollbar-thumb:vertical": {
-    //         background: "#E5E5E5",
-    //         borderRadius: "20px"
-    //     },
-    //     "*::-webkit-scrollbar-thumb:horizontal": {
-    //         background: "#E5E5E5",
-    //         borderRadius: "20px"
-    //     }
-    // },
     root: {
         display: "flex",
     },
@@ -133,9 +108,13 @@ const useStyles = makeStyles((theme) => ({
 export const App = ({title}) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
+    const {data: user} = useUser();
     useEffect(() => {
         document.title = title
     }, [title]);
+    useEffect(() => {
+        (async () => user && localStorage.setItem("ID_TOKEN", await user.getIdToken()))()
+    }, [user]);
 
     const handleDrawerToggle = () => setOpen(!open);
 
@@ -164,6 +143,7 @@ export const App = ({title}) => {
                             ),
                         }}
                     />
+                    <AccountManagement/>
                 </Toolbar>
             </AppBar>
             <Drawer
