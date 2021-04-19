@@ -105,13 +105,10 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export const App = ({title}) => {
+export const App = () => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const {data: user} = useUser();
-    useEffect(() => {
-        document.title = title
-    }, [title]);
     useEffect(() => {
         (async () => user && localStorage.setItem("ID_TOKEN", await user.getIdToken()))()
     }, [user]);
