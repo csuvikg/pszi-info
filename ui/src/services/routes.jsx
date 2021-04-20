@@ -1,4 +1,4 @@
-const BASE_URL = "https://api.pszi.info.hu"
+const BASE_URL = "https://api.pszi.info"
 const ARTICLES_PATH = "articles"
 const PROVIDERS_PATH = "providers"
 
