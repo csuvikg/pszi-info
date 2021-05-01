@@ -24,7 +24,7 @@ public class ProviderService {
         this.geocodingService = geocodingService;
     }
 
-    @CacheEvict(value = "version", allEntries = true)
+    @CacheEvict(value = "providersVersion", allEntries = true)
     public void deleteProviderById(int id) {
         providerRepository.findById(id).ifPresent(providerRepository::delete);
     }
@@ -37,7 +37,7 @@ public class ProviderService {
         return providerRepository.findById(id);
     }
 
-    @CacheEvict(value = "version", allEntries = true)
+    @CacheEvict(value = "providersVersion", allEntries = true)
     public Provider createProvider(Provider provider) {
         geocodingService.geocode(provider.getAddress())
                 .map(latLng -> new Coords(latLng.lat, latLng.lng))
@@ -45,7 +45,7 @@ public class ProviderService {
         return providerRepository.save(provider);
     }
 
-    @Cacheable("version")
+    @Cacheable("providersVersion")
     public Optional<Version> getLatestVersion() {
         return Optional
                 .of(StreamSupport.stream(providerRepository.findAll().spliterator(), true)

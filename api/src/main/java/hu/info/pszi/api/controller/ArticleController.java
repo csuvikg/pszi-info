@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/articles")
-public class ArticleController extends BaseController {
+public class ArticleController {
     private final ArticleService service;
 
     @Autowired
@@ -37,8 +37,9 @@ public class ArticleController extends BaseController {
     }
 
     @GetMapping("/version")
-    @Override
     public ResponseEntity<Version> getLatestVersion() {
-        return getLatestVersion(service);
+        return service.getLatestVersion()
+                .map(ResponseEntity::ok)
+                .orElseThrow(ResourceNotFoundException::new);
     }
 }

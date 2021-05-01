@@ -8,9 +8,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.OptionalLong;
+import java.util.stream.StreamSupport;
 
 @Service
-public class ArticleService extends BaseService {
+public class ArticleService {
     private final ArticleRepository repository;
 
     @Autowired
@@ -30,9 +32,14 @@ public class ArticleService extends BaseService {
         return repository.save(article);
     }
 
-    @Cacheable("version")
-    @Override
+    @Cacheable("articlesVersion")
     public Optional<Version> getLatestVersion() {
-        return getLatestVersion(repository);
+        return Optional
+                .of(StreamSupport.stream(repository.findAll().spliterator(), true)
+                        .mapToLong(Article::getModifiedDate)
+                        .max())
+                .filter(OptionalLong::isPresent)
+                .map(OptionalLong::getAsLong)
+                .map(Version::new);
     }
 }

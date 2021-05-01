@@ -1,15 +1,17 @@
 package hu.info.pszi.api.model.article;
 
-import hu.info.pszi.api.model.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
 @Entity(name = "article")
-public class Article extends BaseEntity {
+@EntityListeners(AuditingEntityListener.class)
+public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -18,4 +20,13 @@ public class Article extends BaseEntity {
 
     @Lob
     private String content;
+
+    @Column(nullable = false, updatable = false)
+    @CreatedDate
+    @JsonIgnore
+    private long createdDate;
+
+    @LastModifiedDate
+    @JsonIgnore
+    private long modifiedDate;
 }
