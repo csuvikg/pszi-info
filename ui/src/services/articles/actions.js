@@ -1,6 +1,6 @@
 import {ACTIONS} from "../actions";
-import axios from "axios";
 import {routes} from "../routes";
+import {getHeaders} from "../helpers";
 
 const createArticleRequest = () => ({
     type: ACTIONS.ADD_ARTICLE_REQUEST
@@ -18,7 +18,11 @@ const createArticleSuccess = () => ({
 export const createArticle = article => async dispatch => {
     dispatch(createArticleRequest());
     try {
-        await axios.post(routes.articles.list, article);
+        await fetch(routes.articles.list, {
+            method: "POST",
+            headers: getHeaders(),
+            body: JSON.stringify(article)
+        });
         dispatch(createArticleSuccess())
     } catch (error) {
         dispatch(createArticleFailed(error.message));
