@@ -1,7 +1,7 @@
-name: Test code
+name: Test backend
 on: [push]
 jobs:
-  Test-Backend:
+  test-backend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
