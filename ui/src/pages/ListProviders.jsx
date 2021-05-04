@@ -1,7 +1,7 @@
 import {Grid} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {listProviders} from "../services";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -25,11 +25,11 @@ const useStyles = makeStyles((theme) => ({
 export const ListProviders = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const {providers} = useSelector(state => state.providers);
+    const {filteredProviders} = useSelector(state => state.providers);
 
     useEffect(() => {
-        if (providers.length === 0) dispatch(listProviders());
-    }, [dispatch, providers]);
+        dispatch(listProviders());
+    }, []);
 
     return <Grid container spacing={3} className={classes.container}>
         <Grid item xs={12} md={6} lg={8} xl={9}>
@@ -44,7 +44,7 @@ export const ListProviders = () => {
         </Grid>
         <Grid item xs={12} md={6} lg={4} xl={3} className={classes.providerList}>
             <Grid container spacing={1}>
-                {providers.map(provider =>
+                {filteredProviders.map(provider =>
                     <Grid key={provider.id} item xs={12}>
                         <ProviderListItem data={provider}/>
                     </Grid>

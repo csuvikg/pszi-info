@@ -43,7 +43,7 @@ const listProvidersSuccess = providers => ({
     providers
 });
 
-export const listProviders = () => async dispatch => {
+export const listProviders = () => async (dispatch, getState) => {
     dispatch(listProvidersRequest());
     const cache = await caches.open("providers");
     if (navigator.onLine) {
@@ -71,7 +71,13 @@ export const listProviders = () => async dispatch => {
     if (response) {
         const data = await response.json();
         dispatch(listProvidersSuccess(data));
+        dispatch(filterProviders(getState().providers.filters));
     } else {
         dispatch(listProvidersFailed("Could not retrieve providers from cache"));
     }
 }
+
+export const filterProviders = filters => ({
+    type: ACTIONS.FILTER_PROVIDERS,
+    filters
+});

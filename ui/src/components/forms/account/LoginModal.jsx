@@ -38,7 +38,6 @@ export const LoginModal = ({open, onClose}) => {
         open={open}
         onClose={onClose}
         aria-labelledby="login-modal-title"
-        aria-describedby="login-modal-description"
         className={classes.container}
     >
         <DialogTitle id="login-dialog-title">Bejelentkezés</DialogTitle>

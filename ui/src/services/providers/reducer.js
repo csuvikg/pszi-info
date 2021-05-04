@@ -3,7 +3,9 @@ import {ACTIONS} from "../actions";
 const initState = {
     isLoading: false,
     errorMessage: "",
-    providers: []
+    providers: [],
+    filters: [],
+    filteredProviders: []
 };
 
 export const ProvidersReducer = (state = initState, action) => {
@@ -35,6 +37,39 @@ export const ProvidersReducer = (state = initState, action) => {
                 errorMessage: "",
                 isLoading: false,
                 providers
+            }
+        case ACTIONS.FILTER_PROVIDERS:
+            const {filters} = action;
+            if (!filters || filters.length === 0) {
+                return {
+                    ...state,
+                    filters,
+                    filteredProviders: state.providers
+                }
+            } else {
+                const combinedFilters = new Map();
+                filters.forEach(({filterBy, filter}) => combinedFilters.has(filterBy)
+                    ? combinedFilters.get(filterBy).push(filter)
+                    : combinedFilters.set(filterBy, [filter]));
+
+                return {
+                    ...state,
+                    filters,
+                    filteredProviders: state.providers.filter(p => {
+                        let eacc = true;
+                        for (let fs of combinedFilters.values()) {
+                            let iacc = false;
+                            for (let f of fs) {
+                                iacc = iacc || f(p);
+                            }
+                            eacc = eacc && iacc;
+                            if (eacc === false) {
+                                return false;
+                            }
+                        }
+                        return eacc;
+                    })
+                }
             }
         default:
             return state;
