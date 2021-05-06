@@ -2,7 +2,7 @@ import {Button, Card, Typography} from "@material-ui/core";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {makeStyles} from "@material-ui/core/styles";
 import {useSelector} from "react-redux";
-import {useEffect, useState} from "react";
+import {MapCenterHandler} from "./MapCenterHandler";
 
 const useStyles = makeStyles((theme) => ({
     map: {
@@ -26,38 +26,18 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const defaultCenterValue = [47.509425, 19.1260431];
-
 export const ProviderMap = () => {
     const classes = useStyles();
     const {filteredProviders} = useSelector(state => state.providers);
-    const [center, setCenter] = useState(defaultCenterValue);
-
-    const setCurrentUserPosition = () => {
-        navigator.geolocation.getCurrentPosition(position => {
-            setCenter([position.coords.latitude, position.coords.longitude]);
-        });
-    }
-
-    useEffect(() => {
-        (async () => {
-            if (navigator.permissions) {
-                const result = await navigator.permissions.query({name: 'geolocation'});
-                if (result.state === 'granted') setCurrentUserPosition();
-                result.onchange = e => e.target.state === 'granted'
-                    ? setCurrentUserPosition()
-                    : setCenter(defaultCenterValue);
-            }
-        })();
-    }, []);
 
     return <Card>
-        <MapContainer center={center} zoom={10} scrollWheelZoom={true}
+        <MapContainer center={[47.33297626746441, 19.49850283582125]} zoom={7} scrollWheelZoom={true}
                       className={classes.map}>
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
+            <MapCenterHandler/>
             {filteredProviders.map(({id, name, address: {city, postalCode, address, coords: {lat, lng}}}) =>
                 <Marker key={id} position={[lat, lng]}>
                     <Popup>
