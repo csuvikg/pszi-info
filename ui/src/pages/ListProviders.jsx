@@ -1,7 +1,7 @@
 import {Grid} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {listProviders} from "../services";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -29,7 +29,7 @@ export const ListProviders = () => {
 
     useEffect(() => {
         dispatch(listProviders());
-    }, []);
+    }, [dispatch]);
 
     return <Grid container spacing={3} className={classes.container}>
         <Grid item xs={12} md={6} lg={8} xl={9}>

@@ -39,9 +39,10 @@ public class ProviderService {
 
     @CacheEvict(value = "providersVersion", allEntries = true)
     public Provider createProvider(Provider provider) {
-        geocodingService.geocode(provider.getAddress())
+        Coords coords = geocodingService.geocode(provider.getAddress())
                 .map(latLng -> new Coords(latLng.lat, latLng.lng))
-                .ifPresent(provider.getAddress()::setCoords);
+                .orElse(new Coords(0, 0));
+        provider.getAddress().setCoords(coords);
         return providerRepository.save(provider);
     }
 

@@ -18,6 +18,10 @@ public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/actuator/health").permitAll()
+                .antMatchers(HttpMethod.GET, "/providers").permitAll()
+                .antMatchers(HttpMethod.GET, "/providers/version").permitAll()
+                .antMatchers(HttpMethod.GET, "/articles").permitAll()
+                .antMatchers(HttpMethod.GET, "/articles/version").permitAll()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .anyRequest().authenticated().and()
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
