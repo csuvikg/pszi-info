@@ -18,6 +18,7 @@ import {ContentSwitch} from "./ContentSwitch";
 import {HashRouter} from "react-router-dom";
 import "firebase/auth";
 import {useUser} from "reactfire";
+import {PageViewLogger} from "./loggers/PageViewLogger";
 
 const drawerWidth = 280;
 
@@ -176,6 +177,7 @@ export const App = () => {
                 <div className={classes.toolbar}/>
                 <ContentSwitch/>
             </main>
+            <PageViewLogger />
         </HashRouter>
     );
 };

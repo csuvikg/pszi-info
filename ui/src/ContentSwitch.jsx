@@ -1,6 +1,5 @@
 import {Route, Switch} from "react-router-dom";
 import {AddArticle, AddProvider, ListProviders} from "./pages";
-import {PageViewLogger} from "./loggers/PageViewLogger";
 
 export const ContentSwitch = () =>
     <Switch>
@@ -16,5 +15,4 @@ export const ContentSwitch = () =>
         <Route exact path="/providers/add">
             <AddProvider/>
         </Route>
-        <PageViewLogger/>
     </Switch>;

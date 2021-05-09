@@ -1,10 +1,8 @@
 import {
-    Button, Card, CardContent, CardHeader, Checkbox,
+    Button, Card, CardContent, CardHeader,
     Divider,
     FormControl,
-    FormControlLabel,
     FormGroup,
-    FormLabel,
     Grid, Hidden,
     TextField,
 } from "@material-ui/core";
@@ -13,18 +11,12 @@ import {SelectInput, WorkingHoursInput} from "../components";
 import {makeStyles} from "@material-ui/core/styles";
 import {useDispatch} from "react-redux";
 import {createProvider} from "../services";
+import {CheckboxGroup} from "../components/forms/CheckboxGroup";
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     card: {
         height: "100%"
-    },
-    checkboxGroup: {
-        flexDirection: "row",
-        justifyContent: "center"
-    },
-    checkboxGroupContainer: {
-        margin: theme.spacing(3)
     },
     disappearingDivider: {
         width: "calc(100% - 32px)",
@@ -101,14 +93,6 @@ export const AddProvider = () => {
                     return a;
                 }, {})
         ));
-    }
-
-    const handleChangeTargetGroups = ({target: {value}}, shouldAdd) => {
-        setTargetGroups(
-            shouldAdd
-                ? [...targetGroups, value]
-                : targetGroups.filter(item => item !== value)
-        );
     }
 
     return <Grid container spacing={3} className={classes.container}>
@@ -210,32 +194,13 @@ export const AddProvider = () => {
                             <CardHeader subheader="Betegfelvétel"/>
                             <CardContent>
                                 <FormControl fullWidth component="fieldset">
-                                    {/*todo: solve with CheckBoxGroup*/}
-                                    <FormControl component="fieldset" className={classes.checkboxGroupContainer}>
-                                        <FormLabel component="legend">Célcsoport:</FormLabel>
-                                        <FormGroup className={classes.checkboxGroup}>
-                                            <FormControlLabel
-                                                control={<Checkbox color="primary"
-                                                                   checked={targetGroups.includes("CHILDREN")}
-                                                                   onChange={handleChangeTargetGroups}
-                                                                   name="CHILDREN"/>}
-                                                label="Gyermekek" value="CHILDREN"
-                                            />
-                                            <FormControlLabel
-                                                control={<Checkbox color="primary"
-                                                                   checked={targetGroups.includes("TEENAGERS")}
-                                                                   onChange={handleChangeTargetGroups}
-                                                                   name="TEENAGERS"/>}
-                                                label="Serdülők" value="TEENAGERS"
-                                            />
-                                            <FormControlLabel
-                                                control={<Checkbox color="primary"
-                                                                   checked={targetGroups.includes("ADULTS")}
-                                                                   onChange={handleChangeTargetGroups} name="ADULTS"/>}
-                                                label="Felnőttek" value="ADULTS"
-                                            />
-                                        </FormGroup>
-                                    </FormControl>
+                                    <CheckboxGroup value={targetGroups} label="Célcsoport" onChange={setTargetGroups}
+                                                   options={[
+                                                       {label: "Gyermekek", value: "CHILDREN"},
+                                                       {label: "Serdülők", value: "TEENAGERS"},
+                                                       {label: "Felnőttek", value: "ADULTS"}
+                                                   ]}
+                                    />
                                     <FormGroup aria-label="patient admission">
                                         <SelectInput id="isReservationNeeded"
                                                      value={isReservationNeeded}

@@ -1,7 +1,20 @@
 import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel} from "@material-ui/core";
 import PropTypes from "prop-types";
+import {makeStyles} from "@material-ui/core/styles";
+
+const useStyles = makeStyles(() => ({
+    container: {
+        margin: "0.5rem"
+    },
+    checkboxGroup: {
+        flexDirection: "row",
+        justifyContent: "center"
+    }
+}));
 
 export const CheckboxGroup = ({label, options, value, onChange}) => {
+    const classes = useStyles();
+
     const handleChange = ({target}, shouldAdd) => {
         onChange(
             shouldAdd
@@ -10,9 +23,9 @@ export const CheckboxGroup = ({label, options, value, onChange}) => {
         );
     }
 
-    return <FormControl component="fieldset">
+    return <FormControl component="fieldset" fullWidth className={classes.container}>
         <FormLabel component="legend">{label}</FormLabel>
-        <FormGroup>
+        <FormGroup className={classes.checkboxGroup}>
             {options.map(option =>
                 <FormControlLabel
                     control={<Checkbox color="primary"
@@ -33,5 +46,5 @@ CheckboxGroup.propTypes = {
         value: PropTypes.string.isRequired
     })).isRequired,
     value: PropTypes.arrayOf(PropTypes.string).isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
 }

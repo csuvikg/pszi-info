@@ -36,6 +36,7 @@ export const ProvidersReducer = (state = initState, action) => {
             const {providers} = action;
             let cities = [...new Set(providers.filter(p => p.address && p.address.city).map(p => p.address.city))];
             cities.sort();
+            cities = cities.map(city => ({label: city, value: city}));
             return {
                 ...state,
                 errorMessage: "",
