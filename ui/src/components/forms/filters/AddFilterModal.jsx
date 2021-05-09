@@ -1,4 +1,13 @@
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField} from "@material-ui/core";
+import {
+    Button, Checkbox,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    FormControl, FormControlLabel, FormGroup, FormLabel,
+    Grid,
+    TextField
+} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {Autocomplete} from "@material-ui/lab";
 import PropTypes from "prop-types";
@@ -20,6 +29,23 @@ export const AddFilterModal = ({open, onClose, onAdd}) => {
     const {providers} = useSelector(state => state.providers);
     const [cityOptions, setCityOptions] = useState([]);
     const [city, setCity] = useState(null);
+    const [targetGroups, setTargetGroups] = useState([]);
+
+    // workingHours
+    //
+    // phoneNumber
+    //
+    // email
+    //
+    // website
+    //
+    // isReservationNeeded
+    //
+    // isReferralNeeded
+    //
+    // acceptsUrgentCases
+    //
+    // waitingList
 
     useEffect(() => {
         setCityOptions(Array.from(new Set(providers.map(p => p.address.city))));
@@ -55,7 +81,25 @@ export const AddFilterModal = ({open, onClose, onAdd}) => {
                     onChange={(_, value) => setCity(value)}
                     renderInput={(params) =>
                         <TextField {...params} label="Település" margin="normal"/>
-                    }/>
+                    }
+                />
+                <FormControl component="fieldset">
+                    <FormLabel component="legend">Célcsoport</FormLabel>
+                    <FormGroup>
+                        <FormControlLabel
+                            control={<Checkbox color="primary" value="ADULTS" checked={targetGroups.includes("ADULTS")} onChange={() => setTargetGroups(["ADULTS"])} name="gilad"/>}
+                            label="Felnőtt"
+                        />
+                        <FormControlLabel
+                            control={<Checkbox color="primary" value="CHILDREN" checked={targetGroups.includes("CHILDREN")} onChange={() => setTargetGroups(["CHILDREN"])} name="jason"/>}
+                            label="Gyermek"
+                        />
+                        <FormControlLabel
+                            control={<Checkbox color="primary" value="TEENAGERS" checked={targetGroups.includes("TEENARGERS")} onChange={() => setTargetGroups(["TEENARGERS"])} name="antoine"/>}
+                            label="Serdülő"
+                        />
+                    </FormGroup>
+                </FormControl>
             </Grid>
         </DialogContent>
         <DialogActions className={classes.actions}>

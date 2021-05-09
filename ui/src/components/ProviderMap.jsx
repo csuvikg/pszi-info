@@ -11,10 +11,10 @@ const useStyles = makeStyles((theme) => ({
             height: "calc(100vh - 96px)",
         },
         [theme.breakpoints.only("lg")]: {
-            height: "calc(100vh - 256px)",
+            height: "calc(100vh - 140px)",
         },
         [theme.breakpoints.only("md")]: {
-            height: "calc(100vh - 256px)",
+            height: "calc(100vh - 164px)",
         },
         [theme.breakpoints.only("sm")]: {
             height: "50vh",

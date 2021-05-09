@@ -81,3 +81,11 @@ export const filterProviders = filters => ({
     type: ACTIONS.FILTER_PROVIDERS,
     filters
 });
+
+export const flyToUserPosition = () => ({
+    type: ACTIONS.FLY_TO_USER_POSITION_START
+})
+
+export const flyToUserPositionFinish = () => ({
+    type: ACTIONS.FLY_TO_USER_POSITION_FINISH
+})

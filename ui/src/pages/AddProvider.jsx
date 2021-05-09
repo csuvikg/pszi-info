@@ -210,6 +210,7 @@ export const AddProvider = () => {
                             <CardHeader subheader="Betegfelvétel"/>
                             <CardContent>
                                 <FormControl fullWidth component="fieldset">
+                                    {/*todo: solve with CheckBoxGroup*/}
                                     <FormControl component="fieldset" className={classes.checkboxGroupContainer}>
                                         <FormLabel component="legend">Célcsoport:</FormLabel>
                                         <FormGroup className={classes.checkboxGroup}>
@@ -238,7 +239,7 @@ export const AddProvider = () => {
                                     <FormGroup aria-label="patient admission">
                                         <SelectInput id="isReservationNeeded"
                                                      value={isReservationNeeded}
-                                                     label="Előjegyzés:"
+                                                     label="Időpontfoglalás:"
                                                      onChange={setReservationNeeded}
                                                      options={[
                                                          {value: "UNKNOWN", label: "Nincs adat"},

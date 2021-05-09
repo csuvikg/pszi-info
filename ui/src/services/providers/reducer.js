@@ -1,11 +1,13 @@
 import {ACTIONS} from "../actions";
 
 const initState = {
-    isLoading: false,
+    cities: [],
     errorMessage: "",
-    providers: [],
+    filteredProviders: [],
     filters: [],
-    filteredProviders: []
+    isLoading: false,
+    providers: [],
+    shouldFlyToUserPosition: false
 };
 
 export const ProvidersReducer = (state = initState, action) => {
@@ -32,44 +34,38 @@ export const ProvidersReducer = (state = initState, action) => {
             }
         case ACTIONS.LIST_PROVIDERS_SUCCESS:
             const {providers} = action;
+            let cities = [...new Set(providers.filter(p => p.address && p.address.city).map(p => p.address.city))];
+            cities.sort();
             return {
                 ...state,
                 errorMessage: "",
                 isLoading: false,
-                providers
+                providers,
+                cities
             }
         case ACTIONS.FILTER_PROVIDERS:
             const {filters} = action;
-            if (!filters || filters.length === 0) {
+            if (filters.length === 0) {
                 return {
                     ...state,
-                    filters,
                     filteredProviders: state.providers
                 }
             } else {
-                const combinedFilters = new Map();
-                filters.forEach(({filterBy, filter}) => combinedFilters.has(filterBy)
-                    ? combinedFilters.get(filterBy).push(filter)
-                    : combinedFilters.set(filterBy, [filter]));
-
                 return {
                     ...state,
                     filters,
-                    filteredProviders: state.providers.filter(p => {
-                        let eacc = true;
-                        for (let fs of combinedFilters.values()) {
-                            let iacc = false;
-                            for (let f of fs) {
-                                iacc = iacc || f(p);
-                            }
-                            eacc = eacc && iacc;
-                            if (eacc === false) {
-                                return false;
-                            }
-                        }
-                        return eacc;
-                    })
+                    filteredProviders: state.providers.filter(p => filters.every(f => f(p)))
                 }
+            }
+        case ACTIONS.FLY_TO_USER_POSITION_START:
+            return {
+                ...state,
+                shouldFlyToUserPosition: true
+            }
+        case ACTIONS.FLY_TO_USER_POSITION_FINISH:
+            return {
+                ...state,
+                shouldFlyToUserPosition: false
             }
         default:
             return state;
