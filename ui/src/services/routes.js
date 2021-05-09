@@ -1,4 +1,4 @@
-const BASE_URL = location.hostname === "localhost" ? "http://localhost:8080" : "https://api.pszi.info";
+const BASE_URL = window.location.hostname === "localhost" ? "http://localhost:8080" : "https://api.pszi.info";
 const ARTICLES_PATH = "articles"
 const PROVIDERS_PATH = "providers"
 
