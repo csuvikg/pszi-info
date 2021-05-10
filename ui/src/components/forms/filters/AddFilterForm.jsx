@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {applyFilters} from "../../../services";
 import {CheckboxGroup} from "../CheckboxGroup";
 import {Multiselect} from "../Multiselect";
+import {CheckboxInput} from "../CheckboxInput";
 
 export const AddFilterForm = () => {
     const dispatch = useDispatch();
@@ -47,35 +48,19 @@ export const AddFilterForm = () => {
             {value: "CHILDREN", label: "Gyermek"}
         ]}/>
         <Card>
-            <CardHeader subheader="Elérhetőségek:"/>
+            <CardHeader subheader="Megadott elérhetőségek:"/>
             <CardContent>
-                <FormControlLabel
-                    control={<Checkbox color="primary" checked={mustBeOpen} onChange={e => handleChange({
-                        key: e.target.name,
-                        value: e.target.checked
-                    })} name="mustBeOpen"/>}
-                    label="Most nyitva"
+                <CheckboxInput label={"Telefonszám"}
+                               onChange={value => handleChange({key: "mustHavePhoneNumber", value})}
+                               value={mustHavePhoneNumber}
                 />
-                <FormControlLabel
-                    control={<Checkbox color="primary" checked={mustHavePhoneNumber} onChange={e => handleChange({
-                        key: e.target.name,
-                        value: e.target.checked
-                    })} name="mustHavePhoneNumber"/>}
-                    label="Telefonszámmal rendelkezik"
+                <CheckboxInput label={"Email cím"}
+                               onChange={value => handleChange({key: "mustHaveEmailAddress", value})}
+                               value={mustHaveEmailAddress}
                 />
-                <FormControlLabel
-                    control={<Checkbox color="primary" checked={mustHaveEmailAddress} onChange={e => handleChange({
-                        key: e.target.name,
-                        value: e.target.checked
-                    })} name="mustHaveEmailAddress"/>}
-                    label="Emaillel rendelkezik"
-                />
-                <FormControlLabel
-                    control={<Checkbox color="primary" checked={mustHaveWebsite} onChange={e => handleChange({
-                        key: e.target.name,
-                        value: e.target.checked
-                    })} name="mustHaveWebsite"/>}
-                    label="Weboldallal rendelkezik"
+                <CheckboxInput label={"Weboldal"}
+                               onChange={value => handleChange({key: "mustHaveWebsite", value})}
+                               value={mustHaveWebsite}
                 />
             </CardContent>
         </Card>
@@ -114,6 +99,11 @@ export const AddFilterForm = () => {
                          {value: "WEEKS", label: "Néhány hét"},
                          {value: "MONTHS", label: "Néhány hónap"}
                      ]}
+        />
+        <CheckboxInput label={"Most nyitva"}
+                       onChange={value => handleChange({key: "mustBeOpen", value})}
+                       value={mustBeOpen}
+                       style={{paddingLeft: "1rem", width: "100%"}}
         />
     </>
 }

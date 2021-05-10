@@ -2,12 +2,16 @@ import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel} from "@ma
 import PropTypes from "prop-types";
 import {makeStyles} from "@material-ui/core/styles";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     container: {
         margin: "0.5rem"
     },
     checkboxGroup: {
         flexDirection: "row",
+        [theme.breakpoints.down("xs")]: {
+            flexDirection: "column",
+            paddingLeft: "0.5rem"
+        },
         justifyContent: "center"
     }
 }));
