@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useMap} from "react-leaflet";
 import {useDispatch, useSelector} from "react-redux";
 import {flyToUserPositionFinish} from "../services";
@@ -6,10 +6,16 @@ import {flyToUserPositionFinish} from "../services";
 export const MapCenterHandler = () => {
     const map = useMap();
     const {filteredProviders, shouldFlyToUserPosition} = useSelector(state => state.providers);
+    const [isInitialized, setInitialized] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (filteredProviders && filteredProviders.length) {
+        if (filteredProviders && filteredProviders.length > 0) {
+            if (!isInitialized) {
+                setInitialized(true);
+                return;
+            }
+
             const bounds = filteredProviders.reduce(([[latmin, lngmin], [latmax, lngmax]], {
                 address: {
                     coords: {
@@ -21,7 +27,7 @@ export const MapCenterHandler = () => {
             map.invalidateSize();
             map.flyToBounds(bounds);
         }
-    }, [map, filteredProviders]);
+    }, [isInitialized, map, filteredProviders]);
 
     useEffect(() => {
         if (shouldFlyToUserPosition) {
