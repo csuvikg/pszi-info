@@ -1,14 +1,15 @@
 import {
+    Box,
     Card,
     CardActions,
     CardContent,
-    CardHeader,
+    CardHeader, Chip,
     Collapse,
     IconButton, Link,
-    makeStyles,
+    makeStyles, Paper, Tooltip,
     Typography
 } from "@material-ui/core";
-import {AlternateEmail, ExpandMore, Phone, Room, Web} from "@material-ui/icons";
+import {AlternateEmail, Description, ExpandMore, FlashOn, Phone, Room, Update, Web} from "@material-ui/icons";
 import {useState} from "react";
 import clsx from "clsx";
 
@@ -22,16 +23,35 @@ const dayLabels = {
     SUNDAY: "Vasárnap"
 }
 
+const targetGroupLabels = {
+    CHILDREN: "Gyermekek",
+    TEENAGERS: "Serdülők",
+    ADULTS: "Felnőttek"
+}
+
 const useStyles = makeStyles((theme) => ({
+    bold: {
+        fontWeight: "bold"
+    },
+    container: {
+        padding: "1rem 1.5rem"
+    },
+    chip: {
+        margin: "0 3px"
+    },
+    chipContainer: {
+        display: "flex",
+        padding: "0 0.5rem 1rem 0.5rem"
+    },
     expand: {
-        transform: 'rotate(0deg)',
-        marginLeft: 'auto',
-        transition: theme.transitions.create('transform', {
+        transform: "rotate(0deg)",
+        marginLeft: "auto",
+        transition: theme.transitions.create("transform", {
             duration: theme.transitions.duration.shortest,
         }),
     },
     expandOpen: {
-        transform: 'rotate(180deg)',
+        transform: "rotate(180deg)",
     }
 }));
 
@@ -40,11 +60,15 @@ export const ProviderListItem = ({data}) => {
     const [isOpen, setOpen] = useState(false);
     const {
         name,
+        targetGroups,
         address: {city, address, postalCode},
         phoneNumber,
         email,
         website,
-        workingHours
+        workingHours,
+        isReservationNeeded,
+        isReferralNeeded,
+        acceptsUrgentCases
     } = data;
 
     return <Card>
@@ -59,19 +83,46 @@ export const ProviderListItem = ({data}) => {
         />
         <CardActions disableSpacing>
             {phoneNumber &&
-            <Link component={IconButton} href={`tel:${phoneNumber}`}>
-                <Phone/>
-            </Link>
+            <Tooltip title={phoneNumber}>
+                <Link component={IconButton} href={`tel:${phoneNumber}`}>
+                    <Phone/>
+                </Link>
+            </Tooltip>
             }
             {email &&
-            <Link component={IconButton} href={`mailto:${email}`}>
-                <AlternateEmail/>
-            </Link>
+            <Tooltip title={email}>
+                <Link component={IconButton} href={`mailto:${email}`}>
+                    <AlternateEmail/>
+                </Link>
+            </Tooltip>
             }
             {website &&
-            <Link component={IconButton} href={website} target="_blank" rel="noreferrer">
-                <Web/>
-            </Link>
+            <Tooltip title={website}>
+                <Link component={IconButton} href={website} target="_blank" rel="noreferrer">
+                    <Web/>
+                </Link>
+            </Tooltip>
+            }
+            {isReservationNeeded && isReservationNeeded === "TRUE" &&
+            <Tooltip title="Időpontfoglalás szükséges">
+                <IconButton>
+                    <Update/>
+                </IconButton>
+            </Tooltip>
+            }
+            {isReferralNeeded && isReferralNeeded === "TRUE" &&
+            <Tooltip title="Beutaló szükséges">
+                <IconButton>
+                    <Description/>
+                </IconButton>
+            </Tooltip>
+            }
+            {acceptsUrgentCases && acceptsUrgentCases === "TRUE" &&
+            <Tooltip title="Sürgős esetben ellát">
+                <IconButton>
+                    <FlashOn/>
+                </IconButton>
+            </Tooltip>
             }
             <IconButton
                 className={clsx(classes.expand, {
@@ -86,14 +137,22 @@ export const ProviderListItem = ({data}) => {
         </CardActions>
         <Collapse in={isOpen} timeout="auto" unmountOnExit>
             <CardContent>
-                {workingHours.map(({day, workingHours: whs}) =>
-                    <Typography key={day} variant="body2" color="textSecondary" component="p">
-                        {`${dayLabels[day]}: ${whs.join(", ")}`}
-                    </Typography>
-                )}
-                <Typography variant="body1" color="textSecondary" component="p">
-                    Telefonszám: {phoneNumber}
-                </Typography>
+                <Box className={classes.chipContainer}>
+                    {targetGroups && targetGroups.length > 0 && targetGroups.map(tg =>
+                        <Chip className={classes.chip} key={tg} label={targetGroupLabels[tg]}/>
+                    )}
+                </Box>
+                {workingHours && workingHours.length > 0 &&
+                <Paper className={classes.container}>
+                    <Typography color="textSecondary" component="p">Nyitvatartás</Typography>
+                    {workingHours.map(({day, workingHours: whs}) =>
+                        <Typography key={day} variant="body2" color="textSecondary" component="p">
+                            <span className={classes.bold}>{`${dayLabels[day]}: `}</span>
+                            {`${whs.join(", ")}`}
+                        </Typography>
+                    )}
+                </Paper>
+                }
             </CardContent>
         </Collapse>
     </Card>
