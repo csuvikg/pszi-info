@@ -1,7 +1,5 @@
 import {
     Card, CardContent, CardHeader,
-    Checkbox,
-    FormControlLabel,
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {applyFilters} from "../../../services";

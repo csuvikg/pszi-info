@@ -3,6 +3,7 @@ package hu.info.pszi.api.controller;
 import hu.info.pszi.api.exceptions.ResourceNotFoundException;
 import hu.info.pszi.api.model.provider.Provider;
 import hu.info.pszi.api.model.Version;
+import hu.info.pszi.api.model.provider.ProviderDto;
 import hu.info.pszi.api.service.GeocodingService;
 import hu.info.pszi.api.service.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 
 @RestController
@@ -27,7 +29,7 @@ public class ProviderController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<Provider>> findAllProviders() {
+    public ResponseEntity<List<ProviderDto>> findAllProviders() {
         return ResponseEntity.ok(providerService.listProviders());
     }
 

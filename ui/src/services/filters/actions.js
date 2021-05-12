@@ -29,7 +29,8 @@ export const applyFilters = filters => dispatch => {
     if (mustBeOpen) {
         const days = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
         const now = dayjs();
-        const checkIfIsBetween = ({fromTime, toTime}) => {
+        const checkIfIsBetween = wh => {
+            const [fromTime, toTime] = wh.split(" - ");
             const nowComparable = now.hour() * 60 + now.minute();
             const [fromHours, fromMinutes] = fromTime.split(":");
             const fromComparable = parseInt(fromHours) * 60 + parseInt(fromMinutes);
@@ -38,9 +39,8 @@ export const applyFilters = filters => dispatch => {
             return fromComparable <= nowComparable && nowComparable <= toComparable;
         }
         filterFunctions.push(({workingHours}) => workingHours &&
-            workingHours.some(({day, fromTime, toTime}) =>
-                days[now.day()] === day && checkIfIsBetween({fromTime, toTime})
-            ));
+            workingHours.some(({day, workingHours}) =>
+                days[now.day()] === day && workingHours.some(checkIfIsBetween)));
     }
     if (mustHavePhoneNumber) {
         filterFunctions.push(({phoneNumber}) => phoneNumber && phoneNumber !== "");

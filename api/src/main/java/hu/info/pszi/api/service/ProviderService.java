@@ -1,16 +1,18 @@
 package hu.info.pszi.api.service;
 
 import hu.info.pszi.api.model.provider.Coords;
+import hu.info.pszi.api.model.provider.Day;
 import hu.info.pszi.api.model.provider.Provider;
 import hu.info.pszi.api.model.Version;
+import hu.info.pszi.api.model.provider.ProviderDto;
 import hu.info.pszi.api.repository.ProviderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-import java.util.OptionalLong;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -29,8 +31,10 @@ public class ProviderService {
         providerRepository.findById(id).ifPresent(providerRepository::delete);
     }
 
-    public Iterable<Provider> listProviders() {
-        return providerRepository.findAll();
+    public List<ProviderDto> listProviders() {
+        return StreamSupport.stream(providerRepository.findAll().spliterator(), false)
+                .map(ProviderDto::new)
+                .collect(Collectors.toList());
     }
 
     public Optional<Provider> findProviderById(int id) {

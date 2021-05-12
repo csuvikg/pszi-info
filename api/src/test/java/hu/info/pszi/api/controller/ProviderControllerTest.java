@@ -3,6 +3,7 @@ package hu.info.pszi.api.controller;
 import hu.info.pszi.api.exceptions.ResourceNotFoundException;
 import hu.info.pszi.api.model.Version;
 import hu.info.pszi.api.model.provider.Provider;
+import hu.info.pszi.api.model.provider.ProviderDto;
 import hu.info.pszi.api.service.GeocodingService;
 import hu.info.pszi.api.service.ProviderService;
 import org.junit.jupiter.api.Test;
@@ -35,18 +36,18 @@ class ProviderControllerTest {
     void findAllProviders_whenEmpty() {
         when(providerService.listProviders()).thenReturn(Collections.emptyList());
 
-        ResponseEntity<Iterable<Provider>> response = providerController.findAllProviders();
+        ResponseEntity<List<ProviderDto>> response = providerController.findAllProviders();
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(0, StreamSupport.stream(response.getBody().spliterator(), false).count());
+        assertEquals(0, response.getBody().stream().count());
     }
 
     @Test
     void findAllProviders_whenNotEmpty() {
-        when(providerService.listProviders()).thenReturn(List.of(new Provider(), new Provider()));
+        when(providerService.listProviders()).thenReturn(List.of(new ProviderDto(new Provider()), new ProviderDto(new Provider())));
 
-        ResponseEntity<Iterable<Provider>> response = providerController.findAllProviders();
+        ResponseEntity<List<ProviderDto>> response = providerController.findAllProviders();
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(2, StreamSupport.stream(response.getBody().spliterator(), false).count());
+        assertEquals(2, response.getBody().stream().count());
     }
 
     @Test

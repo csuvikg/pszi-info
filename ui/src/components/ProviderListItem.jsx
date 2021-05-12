@@ -11,7 +11,16 @@ import {
 import {AlternateEmail, ExpandMore, Phone, Room, Web} from "@material-ui/icons";
 import {useState} from "react";
 import clsx from "clsx";
-import dayjs from "dayjs";
+
+const dayLabels = {
+    MONDAY: "Hétfő",
+    TUESDAY: "Kedd",
+    WEDNESDAY: "Szerda",
+    THURSDAY: "Csütörtök",
+    FRIDAY: "Péntek",
+    SATURDAY: "Szombat",
+    SUNDAY: "Vasárnap"
+}
 
 const useStyles = makeStyles((theme) => ({
     expand: {
@@ -48,13 +57,6 @@ export const ProviderListItem = ({data}) => {
             title={name}
             subheader={`${postalCode} ${city}, ${address}`}
         />
-        {/*<CardContent>*/}
-        {/*    {workingHours.map(entry =>*/}
-        {/*        <Typography variant="body2" color="textSecondary" component="p">*/}
-        {/*            {`${entry.day}: ${entry.fromTime} - ${entry.toTime}`}*/}
-        {/*        </Typography>*/}
-        {/*    )}*/}
-        {/*</CardContent>*/}
         <CardActions disableSpacing>
             {phoneNumber &&
             <Link component={IconButton} href={`tel:${phoneNumber}`}>
@@ -84,9 +86,9 @@ export const ProviderListItem = ({data}) => {
         </CardActions>
         <Collapse in={isOpen} timeout="auto" unmountOnExit>
             <CardContent>
-                {workingHours.map(entry =>
-                    <Typography key={entry.id} variant="body2" color="textSecondary" component="p">
-                        {`${entry.day}: ${dayjs(entry.fromTime, "HH:mm:ss").format("HH:mm")} - ${dayjs(entry.toTime, "HH:mm:ss").format("HH:mm")}`}
+                {workingHours.map(({day, workingHours: whs}) =>
+                    <Typography key={day} variant="body2" color="textSecondary" component="p">
+                        {`${dayLabels[day]}: ${whs.join(", ")}`}
                     </Typography>
                 )}
                 <Typography variant="body1" color="textSecondary" component="p">
