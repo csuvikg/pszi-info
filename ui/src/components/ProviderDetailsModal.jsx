@@ -62,7 +62,6 @@ const targetGroupLabels = {
 
 export const ProviderDetailsModal = ({open, onClose, data}) => {
     const classes = useStyles();
-    console.log(data);
     const {
         name,
         targetGroups,

@@ -30,8 +30,6 @@ export const RegistrationModal = ({open, onClose}) => {
             if (password !== passwordVerification) {
                 throw new Error("Mismatching passwords");
             }
-            const token = await auth.signInWithEmailAndPassword(email, password);
-            console.log(await token.user.getIdToken());
             setEmail("");
             setPassword("");
             setPasswordVerification("");
