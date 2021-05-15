@@ -9,7 +9,6 @@ import {
 import PropTypes from "prop-types";
 import {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import {useAuth} from "reactfire";
 
 const useStyles = makeStyles(() => ({
     container: {
@@ -18,7 +17,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 export const RegistrationModal = ({open, onClose}) => {
-    const auth = useAuth();
     const classes = useStyles();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
