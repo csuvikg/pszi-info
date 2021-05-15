@@ -1,11 +1,11 @@
 import {useEffect, useState} from "react";
 import {useMap} from "react-leaflet";
 import {useDispatch, useSelector} from "react-redux";
-import {flyToUserPositionFinish} from "../services";
+import {flyToUserPositionFinish, flyToProviderFinish} from "../services";
 
 export const MapCenterHandler = () => {
     const map = useMap();
-    const {filteredProviders, shouldFlyToUserPosition} = useSelector(state => state.providers);
+    const {filteredProviders, shouldFlyToUserPosition, targetProvider} = useSelector(state => state.providers);
     const [isInitialized, setInitialized] = useState(false);
     const dispatch = useDispatch();
 
@@ -30,13 +30,21 @@ export const MapCenterHandler = () => {
     }, [isInitialized, map, filteredProviders]);
 
     useEffect(() => {
+        if (targetProvider) {
+            const {address: {coords: {lat, lng}}} = filteredProviders.find(p => p.id === targetProvider);
+            map.flyTo([lat, lng], 13);
+            dispatch(flyToProviderFinish());
+        }
+    }, [dispatch, map, filteredProviders, targetProvider]);
+
+    useEffect(() => {
         if (shouldFlyToUserPosition) {
             navigator.geolocation.getCurrentPosition(position => {
-                map.flyTo([position.coords.latitude, position.coords.longitude], 12);
+                map.flyTo([position.coords.latitude, position.coords.longitude], 13);
             });
             dispatch(flyToUserPositionFinish());
         }
     }, [map, dispatch, shouldFlyToUserPosition]);
 
-    return <></>
+    return null;
 }

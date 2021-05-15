@@ -7,7 +7,8 @@ const initState = {
     filters: [],
     isLoading: false,
     providers: [],
-    shouldFlyToUserPosition: false
+    shouldFlyToUserPosition: false,
+    targetProvider: null
 };
 
 export const ProvidersReducer = (state = initState, action) => {
@@ -67,6 +68,16 @@ export const ProvidersReducer = (state = initState, action) => {
             return {
                 ...state,
                 shouldFlyToUserPosition: false
+            }
+        case ACTIONS.FLY_TO_PROVIDER_START:
+            return {
+                ...state,
+                targetProvider: action.id
+            }
+        case ACTIONS.FLY_TO_PROVIDER_FINISH:
+            return {
+                ...state,
+                targetProvider: null
             }
         default:
             return state;

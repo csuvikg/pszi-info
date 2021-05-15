@@ -12,6 +12,8 @@ import {
 import {AlternateEmail, Description, ExpandMore, FlashOn, Phone, Room, Update, Web} from "@material-ui/icons";
 import {useState} from "react";
 import clsx from "clsx";
+import {flyToProvider} from "../services";
+import {useDispatch} from "react-redux";
 
 const dayLabels = {
     MONDAY: "Hétfő",
@@ -57,8 +59,10 @@ const useStyles = makeStyles((theme) => ({
 
 export const ProviderListItem = ({data}) => {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const [isOpen, setOpen] = useState(false);
     const {
+        id,
         name,
         targetGroups,
         address: {city, address, postalCode},
@@ -74,7 +78,7 @@ export const ProviderListItem = ({data}) => {
     return <Card>
         <CardHeader
             action={
-                <IconButton>
+                <IconButton onClick={() => dispatch(flyToProvider(id))}>
                     <Room color="primary"/>
                 </IconButton>
             }
@@ -145,12 +149,13 @@ export const ProviderListItem = ({data}) => {
                 {workingHours && workingHours.length > 0 &&
                 <Paper className={classes.container}>
                     <Typography color="textSecondary" component="p">Nyitvatartás</Typography>
-                    {workingHours.map(({day, workingHours: whs}) =>
-                        <Typography key={day} variant="body2" color="textSecondary" component="p">
-                            <span className={classes.bold}>{`${dayLabels[day]}: `}</span>
-                            {`${whs.join(", ")}`}
-                        </Typography>
-                    )}
+                    {workingHours.filter(({_, workingHours: whs}) => whs && whs.length > 0)
+                        .map(({day, workingHours: whs}) =>
+                            <Typography key={day} variant="body2" color="textSecondary" component="p">
+                                <span className={classes.bold}>{`${dayLabels[day]}: `}</span>
+                                {whs.join(", ")}
+                            </Typography>
+                        )}
                 </Paper>
                 }
             </CardContent>

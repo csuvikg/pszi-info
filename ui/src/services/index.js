@@ -1,5 +1,11 @@
 export {createArticle, listArticles} from "./articles/actions";
 export {
-    createProvider, filterProviders, flyToUserPosition, flyToUserPositionFinish, listProviders
+    createProvider,
+    filterProviders,
+    flyToUserPosition,
+    flyToUserPositionFinish,
+    flyToProvider,
+    flyToProviderFinish,
+    listProviders
 } from "./providers/actions";
 export {applyFilters, removeFilters} from "./filters/actions";
