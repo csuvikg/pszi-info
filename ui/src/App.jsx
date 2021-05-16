@@ -170,7 +170,8 @@ export const App = () => {
                 <Divider/>
                 <DrawerItemList items={[
                     {label: "Intézménykereső", type: ITEM_TYPE.MAP, path: "/providers"},
-                    {label: "Tudásbázis", type: ITEM_TYPE.INFO, path: "/articles"}
+                    {label: "Tudásbázis", type: ITEM_TYPE.INFO, path: "/articles"},
+                    {label: "Kapcsolat", type: ITEM_TYPE.CONTACT, path: "/contact"}
                 ]}/>
                 <AuthCheck fallback={null}>
                     <Divider/>

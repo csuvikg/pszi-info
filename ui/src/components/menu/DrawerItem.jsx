@@ -2,7 +2,7 @@ import {ListItem, ListItemIcon, ListItemText, Tooltip} from "@material-ui/core";
 import {
     AddComment,
     AddLocation,
-    Explore as MapIcon, ImportContacts,
+    Explore as MapIcon, ImportContacts, Mail,
     SupervisorAccount as AdminIcon
 } from "@material-ui/icons";
 import PropTypes from "prop-types";
@@ -13,6 +13,7 @@ export const ITEM_TYPE = {
     ADD_ARTICLE: <AddComment/>,
     ADD_PROVIDER: <AddLocation/>,
     ADMIN: <AdminIcon/>,
+    CONTACT: <Mail/>,
     INFO: <ImportContacts/>,
     MAP: <MapIcon/>
 };

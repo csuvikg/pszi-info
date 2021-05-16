@@ -1,5 +1,5 @@
 import {Route, Switch} from "react-router-dom";
-import {AddArticle, AddProvider, ListArticles, ListProviders} from "./pages";
+import {AddArticle, AddProvider, Contact, ListArticles, ListProviders} from "./pages";
 
 export const ContentSwitch = () =>
     <Switch>
@@ -11,6 +11,9 @@ export const ContentSwitch = () =>
         </Route>
         <Route exact path="/articles/add">
             <AddArticle/>
+        </Route>
+        <Route exact path="/contact">
+            <Contact/>
         </Route>
         <Route exact path="/providers">
             <ListProviders/>

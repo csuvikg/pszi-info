@@ -8,6 +8,7 @@ import DayJs from "@date-io/dayjs"
 import {Provider} from "react-redux";
 import {store} from "./services/store";
 import {FirebaseAppProvider} from "reactfire";
+import '@fontsource/roboto';
 
 const firebaseConfig = {
     apiKey: "AIzaSyDdydSSTdHQE-uFyG4dwC6vtPAY88yAgu4",
