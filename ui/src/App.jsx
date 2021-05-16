@@ -3,7 +3,7 @@ import {
     AppBar,
     CssBaseline,
     Divider,
-    Drawer,
+    Drawer, Hidden,
     IconButton,
     InputAdornment,
     TextField,
@@ -17,7 +17,7 @@ import {AccountManagement, DrawerItemList, ITEM_TYPE, MenuButton} from "./compon
 import {ContentSwitch} from "./ContentSwitch";
 import {HashRouter} from "react-router-dom";
 import "firebase/auth";
-import {useUser} from "reactfire";
+import {useUser, AuthCheck} from "reactfire";
 import {PageViewLogger} from "./loggers/PageViewLogger";
 
 const drawerWidth = 280;
@@ -91,14 +91,17 @@ const useStyles = makeStyles((theme) => ({
     },
     searchBar: {
         marginLeft: "auto",
-        '& .MuiInputBase-input': {
-            color: '#fff',
+        "& .MuiInputBase-input": {
+            color: "#fff",
         },
-        '& .MuiInput-underline:before': {
-            borderBottomColor: '#fff8',
+        "& .MuiInput-underline:before": {
+            borderBottomColor: "#fff",
         },
-        '& .MuiInput-underline:hover:before': {
-            borderBottomColor: '#fff',
+        "& .MuiInput-underline:hover:before": {
+            borderBottomColor: "#fff",
+        },
+        [theme.breakpoints.down("xs")]: {
+            width: "100%",
         }
     },
     searchIcon: {
@@ -127,9 +130,11 @@ export const App = () => {
             >
                 <Toolbar>
                     <MenuButton onClick={handleDrawerToggle} open={open}/>
-                    <Typography variant="h6" noWrap>
-                        Ellátótérkép
-                    </Typography>
+                    <Hidden xsDown>
+                        <Typography variant="h6" noWrap>
+                            Pszi-infó
+                        </Typography>
+                    </Hidden>
                     <TextField
                         className={classes.searchBar}
                         placeholder="Keresés"
@@ -163,21 +168,26 @@ export const App = () => {
                     </IconButton>
                 </div>
                 <Divider/>
-                <DrawerItemList items={[{label: "Intézménykereső", type: ITEM_TYPE.MAP, path: "/providers"}]}/>
-                <Divider/>
-                <DrawerItemList items={
-                    [
-                        {label: "Intézmény hozzáadása", type: ITEM_TYPE.ADD_PROVIDER, path: "/providers/add"},
-                        {label: "Cikk hozzáadása", type: ITEM_TYPE.ADD_ARTICLE, path: "/articles/add"},
-                        {label: "Admin", type: ITEM_TYPE.ADMIN, path: "/admin"}
-                    ]
-                }/>
+                <DrawerItemList items={[
+                    {label: "Intézménykereső", type: ITEM_TYPE.MAP, path: "/providers"},
+                    {label: "Tudásbázis", type: ITEM_TYPE.INFO, path: "/articles"}
+                ]}/>
+                <AuthCheck fallback={null}>
+                    <Divider/>
+                    <DrawerItemList items={
+                        [
+                            {label: "Intézmény hozzáadása", type: ITEM_TYPE.ADD_PROVIDER, path: "/providers/add"},
+                            {label: "Cikk hozzáadása", type: ITEM_TYPE.ADD_ARTICLE, path: "/articles/add"},
+                            {label: "Admin", type: ITEM_TYPE.ADMIN, path: "/admin"}
+                        ]
+                    }/>
+                </AuthCheck>
             </Drawer>
             <main className={classes.content}>
                 <div className={classes.toolbar}/>
                 <ContentSwitch/>
             </main>
-            <PageViewLogger />
+            <PageViewLogger/>
         </HashRouter>
     );
 };
