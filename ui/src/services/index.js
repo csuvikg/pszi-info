@@ -9,3 +9,4 @@ export {
     listProviders
 } from "./providers/actions";
 export {applyFilters, removeFilters} from "./filters/actions";
+export {openSidebar, closeSidebar} from "./application/actions";

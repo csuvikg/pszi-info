@@ -51,7 +51,7 @@ export const SearchBar = () => {
             }))
             setLastSearched(searchTerm);
         }
-    }, [dispatch, pathname, history, filters, searchTerm]);
+    }, [dispatch, pathname, history, filters, searchTerm, lastSearched]);
 
     return <TextField
         className={classes.searchBar}

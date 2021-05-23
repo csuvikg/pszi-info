@@ -8,6 +8,8 @@ import {
 import PropTypes from "prop-types";
 import {makeStyles} from "@material-ui/core/styles";
 import {Link} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {closeSidebar} from "../../services";
 
 export const ITEM_TYPE = {
     ADD_ARTICLE: <AddComment/>,
@@ -35,9 +37,10 @@ const useStyles = makeStyles((theme) => ({
 
 export const DrawerItem = ({type, label, path}) => {
     const classes = useStyles();
+    const dispatch = useDispatch();
 
     return <Tooltip title={label} aria-label={label}>
-        <ListItem component={Link} to={path} button>
+        <ListItem component={Link} to={path} button onClick={() => dispatch(closeSidebar())}>
             <ListItemIcon className={classes.icon}>{type}</ListItemIcon>
             <ListItemText primary={label}/>
         </ListItem>

@@ -17,6 +17,8 @@ import {HashRouter} from "react-router-dom";
 import "firebase/auth";
 import {useUser, AuthCheck} from "reactfire";
 import {PageViewLogger} from "./loggers/PageViewLogger";
+import {useDispatch, useSelector} from "react-redux";
+import {closeSidebar, openSidebar} from "./services";
 
 const drawerWidth = 280;
 
@@ -91,13 +93,14 @@ const useStyles = makeStyles((theme) => ({
 
 export const App = () => {
     const classes = useStyles();
-    const [open, setOpen] = useState(false);
+    const dispatch = useDispatch();
+    const {isSidebarOpen} = useSelector(state => state.application);
     const {data: user} = useUser();
     useEffect(() => {
         (async () => user && localStorage.setItem("ID_TOKEN", await user.getIdToken()))()
     }, [user]);
 
-    const handleDrawerToggle = () => setOpen(!open);
+    const handleDrawerToggle = () => isSidebarOpen ? dispatch(closeSidebar()) : dispatch(openSidebar());
 
     return (
         <HashRouter className={classes.root}>
@@ -105,11 +108,11 @@ export const App = () => {
             <AppBar
                 position="fixed"
                 className={clsx(classes.appBar, {
-                    [classes.appBarShift]: open,
+                    [classes.appBarShift]: isSidebarOpen,
                 })}
             >
                 <Toolbar>
-                    <MenuButton onClick={handleDrawerToggle} open={open}/>
+                    <MenuButton onClick={handleDrawerToggle} open={isSidebarOpen}/>
                     <Hidden xsDown>
                         <Typography variant="h6" noWrap>
                             Pszi-infó
@@ -122,13 +125,13 @@ export const App = () => {
             <Drawer
                 variant="permanent"
                 className={clsx(classes.drawer, {
-                    [classes.drawerOpen]: open,
-                    [classes.drawerClose]: !open,
+                    [classes.drawerOpen]: isSidebarOpen,
+                    [classes.drawerClose]: !isSidebarOpen,
                 })}
                 classes={{
                     paper: clsx({
-                        [classes.drawerOpen]: open,
-                        [classes.drawerClose]: !open,
+                        [classes.drawerOpen]: isSidebarOpen,
+                        [classes.drawerClose]: !isSidebarOpen,
                     }),
                 }}
             >
