@@ -5,15 +5,13 @@ import {
     Divider,
     Drawer, Hidden,
     IconButton,
-    InputAdornment,
-    TextField,
     Toolbar,
     Typography
 } from "@material-ui/core";
-import {ChevronLeft as ChevronLeftIcon, Search as SearchIcon} from "@material-ui/icons";
+import {ChevronLeft as ChevronLeftIcon} from "@material-ui/icons";
 import {makeStyles} from "@material-ui/core/styles";
 import clsx from "clsx";
-import {AccountManagement, DrawerItemList, ITEM_TYPE, MenuButton} from "./components";
+import {AccountManagement, DrawerItemList, ITEM_TYPE, MenuButton, SearchBar} from "./components";
 import {ContentSwitch} from "./ContentSwitch";
 import {HashRouter} from "react-router-dom";
 import "firebase/auth";
@@ -88,24 +86,6 @@ const useStyles = makeStyles((theme) => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         padding: theme.spacing(2),
-    },
-    searchBar: {
-        marginLeft: "auto",
-        "& .MuiInputBase-input": {
-            color: "#fff",
-        },
-        "& .MuiInput-underline:before": {
-            borderBottomColor: "#fff",
-        },
-        "& .MuiInput-underline:hover:before": {
-            borderBottomColor: "#fff",
-        },
-        [theme.breakpoints.down("xs")]: {
-            width: "100%",
-        }
-    },
-    searchIcon: {
-        color: "#fff"
     }
 }));
 
@@ -135,17 +115,7 @@ export const App = () => {
                             Pszi-infó
                         </Typography>
                     </Hidden>
-                    <TextField
-                        className={classes.searchBar}
-                        placeholder="Keresés"
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <SearchIcon className={classes.searchIcon}/>
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
+                    <SearchBar/>
                     <AccountManagement/>
                 </Toolbar>
             </AppBar>

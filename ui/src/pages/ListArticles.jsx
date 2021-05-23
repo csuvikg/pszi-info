@@ -50,9 +50,7 @@ export const ListArticles = () => {
                         <Typography className={classes.heading}>{title}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <Typography>
-                            <div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content)}}/>
-                        </Typography>
+                        <div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content)}}/>
                     </AccordionDetails>
                 </Accordion>
             )}

@@ -17,7 +17,8 @@ export const applyFilters = filters => dispatch => {
         isReservationNeededValues,
         isReferralNeededValues,
         acceptsUrgentCasesValues,
-        waitingListValues
+        waitingListValues,
+        search
     } = filters;
     const filterFunctions = []
     if (cityValues.length > 0) {
@@ -62,6 +63,15 @@ export const applyFilters = filters => dispatch => {
     }
     if (waitingListValues.length > 0) {
         filterFunctions.push(({waitingList}) => waitingList && waitingListValues.includes(waitingList));
+    }
+    if (search && search.length > 0) {
+        const searchTerm = search.toLowerCase();
+        filterFunctions.push(({name, address, comment}) =>
+            (name && name.toLowerCase().includes(searchTerm)) ||
+            (address && address.address && address.address.toLowerCase().includes(searchTerm)) ||
+            (address && address.city && address.city.toLowerCase().includes(searchTerm)) ||
+            (comment && comment.toLowerCase().includes(searchTerm))
+        );
     }
     dispatch(filterProviders(filterFunctions));
 }

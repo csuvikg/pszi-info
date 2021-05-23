@@ -8,3 +8,4 @@ export {ProviderFilters} from "./ProviderFilters";
 export {ProviderMap} from "./ProviderMap";
 export {AccountManagement} from "./forms/account/AccountManagement";
 export {ProviderDetailsModal} from "./ProviderDetailsModal";
+export {SearchBar} from "./SearchBar";

@@ -10,7 +10,8 @@ const initState = {
     isReservationNeededValues: [],
     isReferralNeededValues: [],
     acceptsUrgentCasesValues: [],
-    waitingListValues: []
+    waitingListValues: [],
+    search: ""
 };
 
 export const FiltersReducer = (state = initState, action) => {
