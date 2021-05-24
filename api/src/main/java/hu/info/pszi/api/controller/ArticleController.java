@@ -38,8 +38,6 @@ public class ArticleController {
 
     @GetMapping("/version")
     public ResponseEntity<Version> getLatestVersion() {
-        return service.getLatestVersion()
-                .map(ResponseEntity::ok)
-                .orElseThrow(ResourceNotFoundException::new);
+        return ResponseEntity.ok(service.getLatestVersion());
     }
 }

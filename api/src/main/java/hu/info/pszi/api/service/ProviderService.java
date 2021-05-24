@@ -51,13 +51,10 @@ public class ProviderService {
     }
 
     @Cacheable("providersVersion")
-    public Optional<Version> getLatestVersion() {
-        return Optional
-                .of(StreamSupport.stream(providerRepository.findAll().spliterator(), true)
-                        .mapToLong(Provider::getModifiedDate)
-                        .max())
-                .filter(OptionalLong::isPresent)
-                .map(OptionalLong::getAsLong)
-                .map(Version::new);
+    public Version getLatestVersion() {
+        return new Version(StreamSupport.stream(providerRepository.findAll().spliterator(), true)
+                .mapToLong(Provider::getModifiedDate)
+                .max()
+                .orElseGet(System::currentTimeMillis));
     }
 }

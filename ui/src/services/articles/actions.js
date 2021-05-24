@@ -1,6 +1,7 @@
 import {ACTIONS} from "../actions";
 import {routes} from "../routes";
 import {getHeaders} from "../helpers";
+import dayjs from "dayjs";
 
 const createArticleRequest = () => ({
     type: ACTIONS.ADD_ARTICLE_REQUEST
@@ -50,11 +51,14 @@ export const listArticles = () => async dispatch => {
         try {
             const response = await fetch(routes.articles.version);
             const {version} = await response.json();
-            const localVersion = parseInt(localStorage.getItem("articles_version"));
+            const {version: localVersion, downloadedAt} = JSON.parse(localStorage.getItem("articles_version"));
 
-            if (version !== localVersion) {
+            if (version !== parseInt(localVersion) || dayjs().format("YYYYMMDD") !== downloadedAt) {
                 await cache.add(routes.articles.list);
-                localStorage.setItem("articles_version", version);
+                localStorage.setItem("articles_version", JSON.stringify({
+                    version,
+                    downloadedAt: dayjs().format("YYYYMMDD")
+                }));
             }
         } catch (error) {
             // todo: handle

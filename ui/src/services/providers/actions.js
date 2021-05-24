@@ -1,6 +1,7 @@
 import {ACTIONS} from "../actions";
 import {routes} from "../routes";
 import {getHeaders} from "../helpers";
+import dayjs from "dayjs";
 
 const createProviderRequest = () => ({
     type: ACTIONS.ADD_PROVIDER_REQUEST
@@ -48,19 +49,16 @@ export const listProviders = () => async (dispatch, getState) => {
     const cache = await caches.open("providers");
     if (navigator.onLine) {
         try {
-            const response = await fetch(routes.providers.version, {
-                method: "GET",
-                headers: getHeaders()
-            });
+            const response = await fetch(routes.providers.version);
             const {version} = await response.json();
-            const localVersion = parseInt(localStorage.getItem("providers_version"));
+            const {version: localVersion, downloadedAt} = JSON.parse(localStorage.getItem("providers_version"));
 
-            if (version !== localVersion) {
-                await cache.add(new Request(routes.providers.list, {
-                    method: "GET",
-                    headers: getHeaders()
+            if (version !== parseInt(localVersion) || dayjs().format("YYYYMMDD") !== downloadedAt) {
+                await cache.add(new Request(routes.providers.list));
+                localStorage.setItem("providers_version", JSON.stringify({
+                    version,
+                    downloadedAt: dayjs().format("YYYYMMDD")
                 }));
-                localStorage.setItem("providers_version", version);
             }
         } catch (error) {
             // todo: handle

@@ -33,13 +33,10 @@ public class ArticleService {
     }
 
     @Cacheable("articlesVersion")
-    public Optional<Version> getLatestVersion() {
-        return Optional
-                .of(StreamSupport.stream(repository.findAll().spliterator(), true)
-                        .mapToLong(Article::getModifiedDate)
-                        .max())
-                .filter(OptionalLong::isPresent)
-                .map(OptionalLong::getAsLong)
-                .map(Version::new);
+    public Version getLatestVersion() {
+        return new Version(StreamSupport.stream(repository.findAll().spliterator(), true)
+                .mapToLong(Article::getModifiedDate)
+                .max()
+                .orElseGet(System::currentTimeMillis));
     }
 }

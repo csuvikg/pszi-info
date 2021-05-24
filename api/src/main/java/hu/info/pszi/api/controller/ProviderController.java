@@ -60,8 +60,6 @@ public class ProviderController {
 
     @GetMapping("/version")
     public ResponseEntity<Version> getLatestVersion() {
-        return providerService.getLatestVersion()
-                .map(ResponseEntity::ok)
-                .orElseThrow(ResourceNotFoundException::new);
+        return ResponseEntity.ok(providerService.getLatestVersion());
     }
 }
