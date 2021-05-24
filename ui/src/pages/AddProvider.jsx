@@ -12,6 +12,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {useDispatch} from "react-redux";
 import {createProvider} from "../services";
 import {CheckboxGroup} from "../components/forms/CheckboxGroup";
+import {useHistory} from "react-router";
 
 
 const useStyles = makeStyles(() => ({
@@ -49,6 +50,7 @@ const useStyles = makeStyles(() => ({
 export const AddProvider = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const history = useHistory();
     const [name, setName] = useState("");
     const [postalCode, setPostalCode] = useState("");
     const [city, setCity] = useState("");
@@ -93,6 +95,7 @@ export const AddProvider = () => {
                     return a;
                 }, {})
         ));
+        history.push("/providers");
     }
 
     return <Grid container spacing={3} className={classes.container}>

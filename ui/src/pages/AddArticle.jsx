@@ -5,6 +5,7 @@ import {useDebouncedCallback} from "use-debounce";
 import JoditEditor from "jodit-react";
 import {useDispatch} from "react-redux";
 import {createArticle} from "../services";
+import {useHistory} from "react-router";
 
 const useStyles = makeStyles((theme) => ({
     buttonGroup: {
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 export const AddArticle = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const history = useHistory();
     const editor = useRef(null)
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -31,15 +33,17 @@ export const AddArticle = () => {
         setContent(value);
     }, 2000);
 
-    // todo: redirect to articles
-    const handleSave = () => dispatch(createArticle({
-        title,
-        content
-    }));
+    const handleSave = () => {
+        dispatch(createArticle({
+            title,
+            content
+        }));
+        history.push("/articles");
+    }
 
     const config = useMemo(() => {
         return {
-            readonly: false, // all options from https://xdsoft.net/jodit/doc/
+            readonly: false, // see options at: https://xdsoft.net/jodit/doc/
             language: "hu",
             uploader: {
                 insertImageAsBase64URI: true
