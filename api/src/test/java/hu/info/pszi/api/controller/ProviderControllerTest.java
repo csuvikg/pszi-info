@@ -68,17 +68,10 @@ class ProviderControllerTest {
     @Test
     void getLatestVersion_whenAvailable() {
         long version = 1618244153;
-        when(providerService.getLatestVersion()).thenReturn(Optional.of(new Version(version)));
+        when(providerService.getLatestVersion()).thenReturn(new Version(version));
 
         ResponseEntity<Version> response = providerController.getLatestVersion();
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(version, response.getBody().getVersion());
-    }
-
-    @Test
-    void getLatestVersion_whenUnavailable() {
-        when(providerService.getLatestVersion()).thenReturn(Optional.empty());
-
-        assertThrows(ResourceNotFoundException.class, () -> providerController.getLatestVersion());
     }
 }
